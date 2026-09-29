@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Learn how correct HTML gives an interface structure, keyboard behavior, accessibility, and maintainability before React is added." />
+    <title>Day 1 · Semantic HTML and Accessible Forms</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-01">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 01</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 01 · About 60 minutes</p>
+              <h1>Semantic HTML and Accessible Forms</h1>
+              <p class="lesson-lead">Learn how correct HTML gives an interface structure, keyboard behavior, accessibility, and maintainability before React is added.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-01/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">WEB-02</li><li class="topic-chip">WEB-03</li><li class="topic-chip">A11Y-01</li><li class="topic-chip">A11Y-02</li><li class="topic-chip">A11Y-03</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>In one hour, understand how semantic HTML gives a page structure, behavior, and accessibility before React or JavaScript is added. You do not need to answer questions or write code. Read this lesson, inspect the finished files, read the interview answer, and tick the five topic boxes.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-35 minutes: read the lesson.</li>
+<li>35-50 minutes: inspect the finished example and walkthrough.</li>
+<li>50-55 minutes: read the common mistakes.</li>
+<li>55-60 minutes: read the interview answer and tick the topics.</li>
+</ul>
+</section>
+<section class="content-card" id="1-what-semantic-html-means"><h2>1. What semantic HTML means</h2>
+<p>Semantic HTML uses elements according to the meaning of their content. A <code>&lt;nav&gt;</code> means &quot;this region contains important navigation.&quot; A <code>&lt;main&gt;</code> identifies the page's primary content. A <code>&lt;button&gt;</code> means &quot;this control performs an action.&quot;</p>
+<p>A <code>&lt;div&gt;</code> has no built-in meaning. It is useful when you only need a styling or layout wrapper, but it should not replace an element that already communicates the correct purpose.</p>
+<p>Semantic elements help four groups at once:</p>
+<ol>
+<li>Browsers receive built-in behavior, such as keyboard activation for buttons.</li>
+<li>Assistive technology receives roles, names, states, and page landmarks.</li>
+<li>Search engines understand the content structure more clearly.</li>
+<li>Developers can read and maintain the markup more easily.</li>
+</ol>
+</section>
+<section class="content-card" id="2-important-structural-elements"><h2>2. Important structural elements</h2>
+<h3><code>&lt;header&gt;</code></h3>
+<p>Introductory content for a page or section. It often contains branding, a heading, or navigation. A page may contain more than one header.</p>
+<h3><code>&lt;nav&gt;</code></h3>
+<p>A region containing major navigation links. Not every small collection of links needs to be a navigation landmark.</p>
+<h3><code>&lt;main&gt;</code></h3>
+<p>The unique primary content of the page. Normally, a document should have one visible main region.</p>
+<h3><code>&lt;section&gt;</code></h3>
+<p>A thematic section of content, normally with its own heading. If you cannot give the section a meaningful heading, a <code>&lt;div&gt;</code> may be more appropriate.</p>
+<h3><code>&lt;article&gt;</code></h3>
+<p>Self-contained content that could make sense independently, such as a job posting, news article, product card, or forum post.</p>
+<h3><code>&lt;aside&gt;</code></h3>
+<p>Content related to the surrounding content but not part of its main flow, such as related jobs or supporting information.</p>
+<h3><code>&lt;footer&gt;</code></h3>
+<p>Footer information for a page or section, commonly copyright, authorship, policies, or secondary links.</p>
+</section>
+<section class="content-card" id="3-headings-describe-the-content-outline"><h2>3. Headings describe the content outline</h2>
+<p>Headings are not selected because of their default font size. They describe hierarchy:</p>
+<ul>
+<li><code>&lt;h1&gt;</code> is the page's main subject.</li>
+<li><code>&lt;h2&gt;</code> introduces a major subsection.</li>
+<li><code>&lt;h3&gt;</code> introduces a subsection inside an <code>&lt;h2&gt;</code> section.</li>
+</ul>
+<p>CSS controls visual size. HTML controls meaning. Avoid jumping from <code>&lt;h1&gt;</code> to <code>&lt;h4&gt;</code> merely because <code>&lt;h4&gt;</code> looks smaller.</p>
+</section>
+<section class="content-card" id="4-link-versus-button"><h2>4. Link versus button</h2>
+<p>Use a link when the result is navigation: opening another page, moving to a section, or downloading a resource.</p>
+<p>Use a button when the result is an action: submitting a form, opening a dialog, changing a filter, saving, or deleting.</p>
+<p>Native controls already include keyboard and accessibility behavior. A button can be focused with the keyboard and activated with Enter or Space. Adding <code>role=&quot;button&quot;</code> to a <code>&lt;div&gt;</code> only changes how assistive technology may announce it; it does not automatically add correct keyboard behavior, focus behavior, form behavior, or button styling.</p>
+</section>
+<section class="content-card" id="5-accessible-forms"><h2>5. Accessible forms</h2>
+<h3>Every input needs a label</h3>
+<p>The label tells the user and assistive technology what data belongs in a field.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="html">&lt;label for=&quot;candidate-name&quot;&gt;Full name&lt;/label&gt;
+&lt;input id=&quot;candidate-name&quot; name=&quot;candidateName&quot; type=&quot;text&quot; /&gt;</code></div>
+<p>The label's <code>for</code> value matches the input's <code>id</code>. Clicking the label also focuses the field. Placeholder text is optional guidance, not a label: it disappears while typing and may have poor contrast.</p>
+<h3>Group related controls</h3>
+<p>Use <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> when multiple controls share one question, such as experience level or notification preferences.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="html">&lt;fieldset&gt;
+  &lt;legend&gt;Experience level&lt;/legend&gt;
+  &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;level&quot; value=&quot;junior&quot; /&gt; Junior&lt;/label&gt;
+  &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;level&quot; value=&quot;mid&quot; /&gt; Mid-level&lt;/label&gt;
+&lt;/fieldset&gt;</code></div>
+<h3>Instructions and errors must be connected</h3>
+<p><code>aria-describedby</code> connects an input to extra text such as a hint or error. <code>aria-invalid=&quot;true&quot;</code> tells assistive technology that the current value is invalid.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="html">&lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+&lt;input
+  id=&quot;email&quot;
+  name=&quot;email&quot;
+  type=&quot;email&quot;
+  aria-describedby=&quot;email-hint email-error&quot;
+  aria-invalid=&quot;true&quot;
+/&gt;
+&lt;p id=&quot;email-hint&quot;&gt;Use the address recruiters should contact.&lt;/p&gt;
+&lt;p id=&quot;email-error&quot;&gt;Enter a valid email address.&lt;/p&gt;</code></div>
+<p>In a real application, only add <code>aria-invalid=&quot;true&quot;</code> and show the error after validation fails. Error meaning should not depend on red color alone; include understandable text.</p>
+<h3>Client validation is not security</h3>
+<p>Attributes such as <code>required</code>, <code>minlength</code>, and <code>type=&quot;email&quot;</code> improve user experience, but the server must still validate all submitted data. Browser validation can be bypassed.</p>
+</section>
+<section class="content-card" id="6-keyboard-and-focus-basics"><h2>6. Keyboard and focus basics</h2>
+<p>Interactive controls should be reachable in a logical DOM order. Tab moves forward; Shift+Tab moves backward. Avoid positive <code>tabindex</code> values such as <code>tabindex=&quot;4&quot;</code>, because they create a second manual focus order that becomes difficult to maintain.</p>
+<p>Keep the visible focus outline. You may restyle it with <code>:focus-visible</code>, but do not remove it without a clear replacement.</p>
+<p>Use <code>tabindex=&quot;0&quot;</code> carefully to add an element to the normal tab order, and <code>tabindex=&quot;-1&quot;</code> when code needs to move focus to an element that should not be part of normal Tab navigation.</p>
+</section>
+<section class="content-card" id="7-aria-use-it-only-to-fill-semantic-gaps"><h2>7. ARIA: use it only to fill semantic gaps</h2>
+<p>Prefer native HTML when it provides the needed element and behavior. ARIA is useful for complex widgets or dynamic states that HTML alone cannot express, but incorrect ARIA can make an interface more confusing.</p>
+<p>Think of an ARIA role as a promise. If you declare that a custom component is a button, tab, menu, or dialog, you must also implement all expected keyboard behavior, focus handling, states, and naming.</p>
+<p>Good use:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="html">&lt;button type=&quot;button&quot; aria-pressed=&quot;false&quot;&gt;Mute&lt;/button&gt;</code></div>
+<p>Unnecessary and incomplete use:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="html">&lt;div role=&quot;button&quot;&gt;Submit application&lt;/div&gt;</code></div>
+<p>The correct version is simply:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="html">&lt;button type=&quot;submit&quot;&gt;Submit application&lt;/button&gt;</code></div>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex has built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 01 Semantic HTML/index.html</code></li>
+<li><code>Study Code/Examples/Day 01 Semantic HTML/styles.css</code></li>
+</ul>
+<p>The page contains a header, navigation, main region, self-contained job article, related-information aside, accessible application form, and footer. The CSS provides a responsive layout and visible keyboard focus.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-their-fixes"><h2>Common mistakes and their fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>Why it is a problem</th>
+<th>Better choice</th>
+</tr></thead><tbody>
+<tr>
+<td>Clickable <code>&lt;div&gt;</code> used as an action</td>
+<td>No native button behavior</td>
+<td>Use <code>&lt;button&gt;</code></td>
+</tr>
+<tr>
+<td>Button used to navigate to another page</td>
+<td>Meaning and browser behavior are wrong</td>
+<td>Use <code>&lt;a href=&quot;...&quot;&gt;</code></td>
+</tr>
+<tr>
+<td>Placeholder used as the only label</td>
+<td>It disappears and may not provide a reliable name</td>
+<td>Add a visible <code>&lt;label&gt;</code></td>
+</tr>
+<tr>
+<td>Heading chosen by visual size</td>
+<td>Breaks the document hierarchy</td>
+<td>Choose by level; style with CSS</td>
+</tr>
+<tr>
+<td>Positive <code>tabindex</code> values</td>
+<td>Creates a fragile manual focus order</td>
+<td>Keep logical DOM order</td>
+</tr>
+<tr>
+<td><code>outline: none</code> without replacement</td>
+<td>Keyboard users cannot locate focus</td>
+<td>Use a visible <code>:focus-visible</code> style</td>
+</tr>
+<tr>
+<td>ARIA added to a native element unnecessarily</td>
+<td>Can override correct semantics</td>
+<td>Prefer the native element</td>
+</tr>
+<tr>
+<td>Client-side validation treated as security</td>
+<td>Browser checks can be bypassed</td>
+<td>Validate again on the server</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> Why are semantic HTML and accessibility important in a React application?</p>
+<p><strong>Model answer:</strong></p>
+<p>Semantic HTML gives the interface correct structure and built-in behavior before React adds state or interactivity. I use native elements such as buttons, links, labels, fieldsets, and landmarks because they provide reliable keyboard behavior and useful information to assistive technologies with less custom code. This improves accessibility, maintainability, SEO, and automated testing. I use ARIA only when native HTML cannot express a component's required role or state, because ARIA changes semantics but does not automatically implement keyboard or focus behavior. For dynamic React components such as dialogs, I also manage focus, expose validation messages, and test the complete flow with a keyboard.</p>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and example, open <a href="#live-example">../02 Skill Matrix</a> and tick these five canonical entries there:</p>
+<ul>
+<li><code>WEB-02</code> Semantic document structure and landmarks</li>
+<li><code>WEB-03</code> Forms, validation, labels, and error UX</li>
+<li><code>A11Y-01</code> Keyboard navigation and visible focus</li>
+<li><code>A11Y-02</code> Accessible names, labels, descriptions, and errors</li>
+<li><code>A11Y-03</code> Semantic HTML vs ARIA</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/curriculum/core/semantic-html/">MDN Semantic HTML curriculum</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/HTML_forms">MDN forms and buttons</a></li>
+<li><a href="https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/">W3C APG: Read Me First</a></li>
+<li><a href="https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/">W3C APG: Keyboard interface</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-01/index.html" title="Day 1 semantic HTML example"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="index.html"><small>Course</small><strong>← Dashboard</strong></a>
+                <a href="day-02.html"><small>Next lesson</small><strong>Day 2 →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-what-semantic-html-means">What semantic HTML means</a></li><li><a href="#2-important-structural-elements">Important structural elements</a></li><li><a href="#3-headings-describe-the-content-outline">Headings describe the content outline</a></li><li><a href="#4-link-versus-button">Link versus button</a></li><li><a href="#5-accessible-forms">Accessible forms</a></li><li><a href="#6-keyboard-and-focus-basics">Keyboard and focus basics</a></li><li><a href="#7-aria-use-it-only-to-fill-semantic-gaps">ARIA: use it only to fill semantic gaps</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-their-fixes">Common mistakes and their fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

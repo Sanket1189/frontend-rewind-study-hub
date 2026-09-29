@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sanket's focused eight-week frontend revision hub."
+    />
+    <title>Frontend Rewind · Study Hub</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="home">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button
+            class="icon-button"
+            type="button"
+            data-sidebar-toggle
+            aria-controls="study-sidebar"
+            aria-expanded="false"
+          >
+            <span aria-hidden="true">☰</span>
+            <span>Lessons</span>
+          </button>
+          <span class="mobile-brand">Frontend Rewind</span>
+        </header>
+
+        <main id="main-content" class="page-content dashboard-page">
+          <section class="hero-card">
+            <p class="eyebrow">8 weeks · 1 hour a day</p>
+            <h1>Your frontend revision, prepared for you.</h1>
+            <p class="hero-copy">
+              Read the lesson, inspect the finished project, review the model
+              interview answer, and mark the day complete. No homework or setup
+              required.
+            </p>
+            <a class="primary-action" href="day-01.html">Open Day 1</a>
+          </section>
+
+          <section class="progress-panel" aria-labelledby="progress-title">
+            <div>
+              <p class="section-kicker">Course progress</p>
+              <h2 id="progress-title"><span data-completed-count>0</span> of 2 days complete</h2>
+            </div>
+            <div
+              class="progress-track"
+              role="progressbar"
+              aria-label="Course completion"
+              aria-valuemin="0"
+              aria-valuemax="2"
+              aria-valuenow="0"
+              data-progress-track
+            >
+              <span data-progress-fill></span>
+            </div>
+          </section>
+
+          <section aria-labelledby="available-lessons">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Available now</p>
+                <h2 id="available-lessons">Prepared lessons</h2>
+              </div>
+              <p>More days will appear here as the course grows.</p>
+            </div>
+
+            <div class="lesson-grid">
+              <article class="lesson-card" data-day-card="day-01">
+                <div class="lesson-number">01</div>
+                <div>
+                  <p class="lesson-topics">HTML · Forms · Accessibility</p>
+                  <h3>Semantic HTML and Accessible Forms</h3>
+                  <p>
+                    Learn meaningful page structure, native controls, labels,
+                    keyboard behavior, focus, and responsible ARIA.
+                  </p>
+                  <div class="card-footer">
+                    <span class="status-chip" data-day-status>Ready</span>
+                    <a href="day-01.html">Read Day 1 <span aria-hidden="true">→</span></a>
+                  </div>
+                </div>
+              </article>
+
+              <article class="lesson-card" data-day-card="day-02">
+                <div class="lesson-number">02</div>
+                <div>
+                  <p class="lesson-topics">CSS · Cascade · Layout</p>
+                  <h3>CSS Foundations</h3>
+                  <p>
+                    Understand cascade, inheritance, specificity, box sizing,
+                    normal flow, display, and overflow.
+                  </p>
+                  <div class="card-footer">
+                    <span class="status-chip" data-day-status>Ready</span>
+                    <a href="day-02.html">Read Day 2 <span aria-hidden="true">→</span></a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
+

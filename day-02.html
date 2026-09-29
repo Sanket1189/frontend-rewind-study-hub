@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Understand how a CSS value wins and how the browser sizes and places boxes before Flexbox or Grid enters the picture." />
+    <title>Day 2 · CSS Cascade, Specificity, Box Model, and Normal Flow</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-02">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 02</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 02 · About 60 minutes</p>
+              <h1>CSS Cascade, Specificity, Box Model, and Normal Flow</h1>
+              <p class="lesson-lead">Understand how a CSS value wins and how the browser sizes and places boxes before Flexbox or Grid enters the picture.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-02/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">CSS-01</li><li class="topic-chip">CSS-02</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Understand how the browser decides which CSS declaration wins, how every visible element becomes a box, and how those boxes are placed before Flexbox or Grid is introduced. You do not need to answer questions or write code.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-35 minutes: read the prepared lesson.</li>
+<li>35-50 minutes: inspect the finished example and walkthrough.</li>
+<li>50-55 minutes: read the common mistakes.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>CSS-01</code> and <code>CSS-02</code>.</li>
+</ul>
+</section>
+<section class="content-card" id="1-css-answers-two-different-questions"><h2>1. CSS answers two different questions</h2>
+<p>CSS must decide:</p>
+<ol>
+<li><strong>Which value wins?</strong> The cascade, inheritance, specificity, and source order determine the final value of properties such as <code>color</code> or <code>margin</code>.</li>
+<li><strong>How is the element laid out?</strong> The box model, display type, normal flow, positioning, Flexbox, and Grid determine size and location.</li>
+</ol>
+<p>Many CSS bugs happen because these questions are mixed together. First confirm whether the expected declaration wins. Then investigate the layout produced by that declaration.</p>
+</section>
+<section class="content-card" id="2-the-cascade"><h2>2. The cascade</h2>
+<p>The cascade is the browser's conflict-resolution algorithm. When several declarations set the same property on the same element, the browser does not simply choose the selector that looks most complicated.</p>
+<p>A practical resolution order is:</p>
+<ol>
+<li>Relevance: does the selector match, and is its media query active?</li>
+<li>Origin and importance: browser, user, or author CSS; normal or <code>!important</code>.</li>
+<li>Cascade layer order, if <code>@layer</code> is used.</li>
+<li>Specificity.</li>
+<li>Scoping proximity, when <code>@scope</code> is involved.</li>
+<li>Source order: if everything else ties, the later declaration wins.</li>
+</ol>
+<p>Most application conflicts are resolved by specificity or source order, but those steps only matter after origin, importance, and layer precedence.</p>
+</section>
+<section class="content-card" id="3-inheritance"><h2>3. Inheritance</h2>
+<p>Some properties naturally pass from a parent to descendants. Text properties commonly inherit: <code>color</code>, <code>font-family</code>, <code>font-size</code>, and <code>line-height</code>.</p>
+<p>Layout and box properties normally do not inherit: <code>margin</code>, <code>padding</code>, <code>border</code>, <code>width</code>, and <code>background</code>.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="css">body {
+  color: #172033;
+  font-family: system-ui, sans-serif;
+}</code></div>
+<p>Most text inside the body receives those values without repetition. A directly targeted value beats an inherited value:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="css">body { color: green; }
+h1 { color: navy; }</code></div>
+<p>The heading is navy because <code>h1</code> is targeted directly. A high-specificity parent selector does not make its inherited value stronger than a direct declaration on the child.</p>
+<p>Useful keywords are <code>inherit</code>, <code>initial</code>, <code>unset</code>, <code>revert</code>, and <code>revert-layer</code>. They deliberately control how a value falls back instead of duplicating values.</p>
+</section>
+<section class="content-card" id="4-specificity"><h2>4. Specificity</h2>
+<p>Specificity compares selectors using three components, written <code>A-B-C</code>:</p>
+<ul>
+<li><code>A</code>: ID selectors.</li>
+<li><code>B</code>: classes, attributes, and pseudo-classes.</li>
+<li><code>C</code>: element selectors and pseudo-elements.</li>
+</ul>
+<div class="table-wrap"><table><thead><tr>
+<th>Selector</th>
+<th>Specificity</th>
+<th>Reason</th>
+</tr></thead><tbody>
+<tr>
+<td><code>button</code></td>
+<td><code>0-0-1</code></td>
+<td>one element</td>
+</tr>
+<tr>
+<td><code>.button</code></td>
+<td><code>0-1-0</code></td>
+<td>one class</td>
+</tr>
+<tr>
+<td><code>button.primary</code></td>
+<td><code>0-1-1</code></td>
+<td>one class and one element</td>
+</tr>
+<tr>
+<td><code>[data-state=&quot;open&quot;]</code></td>
+<td><code>0-1-0</code></td>
+<td>one attribute</td>
+</tr>
+<tr>
+<td><code>#save-button</code></td>
+<td><code>1-0-0</code></td>
+<td>one ID</td>
+</tr>
+</tbody></table></div>
+<p>Compare from left to right. <code>1-0-0</code> beats <code>0-20-20</code>; this is not a decimal score.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="css">button { background: gray; }
+.primary-action { background: blue; }</code></div>
+<p>For <code>&lt;button class=&quot;primary-action&quot;&gt;</code>, blue wins because <code>0-1-0</code> beats <code>0-0-1</code>.</p>
+<p>If specificity ties, later source order wins:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="css">.notice { border-color: gray; }
+.notice { border-color: orange; }</code></div>
+</section>
+<section class="content-card" id="5-keep-specificity-low"><h2>5. Keep specificity low</h2>
+<p>High specificity makes future changes harder. Prefer a single component class:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="css">.job-card { }
+.job-card__title { }
+.job-card--featured { }</code></div>
+<p>Avoid deep selectors such as <code>main .dashboard section article header h2</code>, routine ID styling, and <code>!important</code> escalation. <code>!important</code> changes cascade importance; it is not simply extra specificity.</p>
+<p>The <code>:where()</code> pseudo-class is useful for defaults because it always contributes zero specificity:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="css">:where(ul, ol) { margin-block: 0; }</code></div>
+</section>
+<section class="content-card" id="6-the-box-model"><h2>6. The box model</h2>
+<p>Every rendered element creates one or more boxes. From inside to outside:</p>
+<ol>
+<li><strong>Content</strong> - text, image, or child content.</li>
+<li><strong>Padding</strong> - space around the content; the background extends into it.</li>
+<li><strong>Border</strong> - line around content and padding.</li>
+<li><strong>Margin</strong> - transparent space outside the border.</li>
+</ol>
+<p>With the default <code>box-sizing: content-box</code>, a declared width controls only the content box:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-7">Copy</button><code id="lesson-code-7" data-language="css">.card {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid;
+}</code></div>
+<p>The visible width is <code>300 + 40 + 4 = 344px</code>, before margins.</p>
+<p>With <code>box-sizing: border-box</code>, width includes content, padding, and border:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-8">Copy</button><code id="lesson-code-8" data-language="css">*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}</code></div>
+<p>Now <code>width: 300px</code> stays 300px wide. This global baseline makes sizing easier to reason about.</p>
+</section>
+<section class="content-card" id="7-block-and-inline-display"><h2>7. Block and inline display</h2>
+<p>In normal flow, a block box generally starts on a new line, fills available width when width is auto, and respects width, height, margin, padding, and border.</p>
+<p>An inline box continues inside the current line. Explicit width and height do not behave like they do on a block. Horizontal spacing affects the line normally, while vertical padding and border may paint without pushing surrounding lines as expected.</p>
+<p>Headings, paragraphs, and sections are block by default. Links, <code>span</code>, <code>strong</code>, and <code>em</code> are inline. <code>inline-block</code> stays inline while accepting width and height.</p>
+</section>
+<section class="content-card" id="8-normal-flow"><h2>8. Normal flow</h2>
+<p>Normal flow is the browser's default layout system:</p>
+<ul>
+<li>block boxes stack in the block direction;</li>
+<li>inline boxes flow inside lines of text;</li>
+<li>document order determines visual and reading order;</li>
+<li>later content is pushed away by earlier in-flow content.</li>
+</ul>
+<p>It is resilient: when text grows, content normally pushes downward rather than overlapping. Preserve normal flow unless another layout model is actually needed.</p>
+<p><code>position: absolute</code> and <code>fixed</code> remove an element from normal flow, so surrounding content reserves no space for it. This is why absolute positioning an entire page causes overlap. <code>position: relative</code> and <code>sticky</code> remain in flow.</p>
+</section>
+<section class="content-card" id="9-margin-collapsing"><h2>9. Margin collapsing</h2>
+<p>Vertical margins of block elements in normal flow can collapse. Adjacent margins may combine into one margin—usually the larger one—instead of being added.</p>
+<p>This commonly surprises developers at adjacent blocks or parent/first-child boundaries. Padding, borders, Flexbox, Grid, or a new block formatting context can prevent particular collapses. Inspect the involved boxes instead of adding random margins.</p>
+</section>
+<section class="content-card" id="10-overflow"><h2>10. Overflow</h2>
+<p>When content exceeds a constrained box, the initial behavior is <code>overflow: visible</code>. CSS avoids hiding information by default.</p>
+<ul>
+<li><code>visible</code>: content may paint outside.</li>
+<li><code>hidden</code>: clip overflow with no user scrolling mechanism.</li>
+<li><code>auto</code>: scroll only when necessary.</li>
+<li><code>scroll</code>: always provide scrolling.</li>
+<li><code>clip</code>: clip without creating a scrolling container.</li>
+</ul>
+<p>Avoid fixed heights for text-heavy content unless scrolling is intentional. Prefer content-driven height, <code>min-height</code>, or <code>overflow: auto</code> for genuinely constrained regions.</p>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 02 CSS Foundations/index.html</code></li>
+<li><code>Study Code/Examples/Day 02 CSS Foundations/styles.css</code></li>
+</ul>
+<p>It visually demonstrates inheritance, specificity, source order, content-box versus border-box, block versus inline behavior, normal flow, and controlled overflow.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>What happens</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Treating specificity as a decimal</td>
+<td>Selector results are predicted incorrectly</td>
+<td>Compare <code>A-B-C</code> left to right</td>
+</tr>
+<tr>
+<td>Assuming a nearer ancestor is stronger</td>
+<td>DOM proximity does not determine specificity</td>
+<td>Calculate actual selector weight</td>
+</tr>
+<tr>
+<td>Adding <code>!important</code> whenever a style loses</td>
+<td>Overrides become harder and harder</td>
+<td>Inspect origin, layer, specificity, and order</td>
+</tr>
+<tr>
+<td>Forgetting padding and border in width</td>
+<td>Components unexpectedly overflow</td>
+<td>Use global <code>border-box</code></td>
+</tr>
+<tr>
+<td>Giving text containers a fixed height</td>
+<td>Larger or translated text is clipped</td>
+<td>Prefer natural height or intentional scrolling</td>
+</tr>
+<tr>
+<td>Positioning an entire layout absolutely</td>
+<td>Content overlaps and ignores flow</td>
+<td>Keep structure in flow; use Flexbox/Grid later</td>
+</tr>
+<tr>
+<td>Expecting vertical margins always to add</td>
+<td>Collapsing margins create different gaps</td>
+<td>Inspect the formatting context</td>
+</tr>
+<tr>
+<td>Using deep DOM selectors</td>
+<td>Markup changes break styling</td>
+<td>Use low-specificity component classes</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> How does the browser decide which CSS rule wins, and how do you debug a style that is not applying?</p>
+<p><strong>Model answer:</strong></p>
+<p>When declarations conflict, I first check whether the selector matches and whether conditions such as media queries apply. Then I inspect cascade origin, importance, and cascade layers before comparing specificity. Specificity is compared as ID, class/attribute/pseudo-class, and element/pseudo-element components; if it ties, the later declaration wins. I also check whether the value is inherited or directly applied, because a direct declaration beats an inherited value. In DevTools I inspect the computed property and crossed-out declarations to see exactly which rule won. I prefer low-specificity component classes and fix the cascade instead of adding <code>!important</code>. For layout problems, I separately inspect the box model, <code>box-sizing</code>, display type, normal flow, and overflow.</p>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and walkthrough, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>CSS-01</code> Cascade, inheritance, specificity, and source order</li>
+<li><code>CSS-02</code> Box model, display, normal flow, and overflow</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction">MDN: CSS cascade</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Specificity">MDN: Specificity</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Box_model">MDN: Box model</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Display/Visual_formatting_model">MDN: Visual formatting model</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Display/Flow_layout_and_overflow">MDN: Flow layout and overflow</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-02/index.html" title="Day 2 CSS foundations example"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-01.html"><small>Previous lesson</small><strong>← Day 1</strong></a>
+                <a href="index.html"><small>Course</small><strong>Dashboard →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-css-answers-two-different-questions">CSS answers two different questions</a></li><li><a href="#2-the-cascade">The cascade</a></li><li><a href="#3-inheritance">Inheritance</a></li><li><a href="#4-specificity">Specificity</a></li><li><a href="#5-keep-specificity-low">Keep specificity low</a></li><li><a href="#6-the-box-model">The box model</a></li><li><a href="#7-block-and-inline-display">Block and inline display</a></li><li><a href="#8-normal-flow">Normal flow</a></li><li><a href="#9-margin-collapsing">Margin collapsing</a></li><li><a href="#10-overflow">Overflow</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

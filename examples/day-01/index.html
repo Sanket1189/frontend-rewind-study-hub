@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A semantic and accessible frontend job application example."
+    />
+    <title>Frontend Developer Role | Northstar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Northstar careers home">Northstar</a>
+      <nav aria-label="Primary navigation">
+        <ul class="nav-list">
+          <li><a href="#role">Role</a></li>
+          <li><a href="#application">Apply</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content" class="page-layout">
+      <article id="role" class="job-card" aria-labelledby="job-title">
+        <p class="eyebrow">Frontend Engineering</p>
+        <h1 id="job-title">Frontend Developer</h1>
+        <p class="job-meta">Pune or remote · Full-time · React and TypeScript</p>
+
+        <section aria-labelledby="role-summary">
+          <h2 id="role-summary">About the role</h2>
+          <p>
+            Build accessible, reliable interfaces for an operations platform used
+            by distributed teams.
+          </p>
+        </section>
+
+        <section aria-labelledby="role-skills">
+          <h2 id="role-skills">Core skills</h2>
+          <ul class="tag-list" aria-label="Required skills">
+            <li>Semantic HTML</li>
+            <li>Modern CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>TypeScript</li>
+          </ul>
+        </section>
+        
+
+        <section id="application" aria-labelledby="application-title">
+          <h2 id="application-title">Application</h2>
+          <p id="required-note">All fields are required.</p>
+
+          <form action="/applications" method="post" aria-describedby="required-note">
+            <div class="field">
+              <label for="candidate-name">Full name</label>
+              <input
+                id="candidate-name"
+                name="candidateName"
+                type="text"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="candidate-email">Email address</label>
+              <input
+                id="candidate-email"
+                name="candidateEmail"
+                type="email"
+                autocomplete="email"
+                aria-describedby="email-hint"
+                required
+              />
+              <p id="email-hint" class="hint">
+                Use the address where recruiters should contact you.
+              </p>
+            </div>
+
+            <fieldset>
+              <legend>Experience level</legend>
+              <label class="choice">
+                <input type="radio" name="experience" value="junior" required />
+                Junior
+              </label>
+              <label class="choice">
+                <input type="radio" name="experience" value="mid" />
+                Mid-level
+              </label>
+              <label class="choice">
+                <input type="radio" name="experience" value="senior" />
+                Senior
+              </label>
+            </fieldset>
+
+            <button type="submit">Submit application</button>
+          </form>
+        </section>
+      </article>
+
+      <aside class="support-card" aria-labelledby="application-help">
+        <h2 id="application-help">Before applying</h2>
+        <ul>
+          <li>Review the role requirements.</li>
+          <li>Use a current email address.</li>
+          <li>Check every field before submitting.</li>
+        </ul>
+        <a href="mailto:careers@example.com">Contact the careers team</a>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; 2026 Northstar. Demonstration page.</p>
+    </footer>
+  </body>
+</html>
+
+

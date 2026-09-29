@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A visual guide to CSS foundations." />
+    <title>CSS Foundations Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <p class="eyebrow">Day 02 prepared example</p>
+      <h1>CSS Foundations Lab</h1>
+      <p class="intro">See how the cascade chooses values and how boxes create layout.</p>
+    </header>
+
+    <main>
+      <section aria-labelledby="cascade-title">
+        <h2 id="cascade-title">1. Cascade and inheritance</h2>
+        <div class="demo-panel inheritance-demo">
+          <h3>Inherited text styles</h3>
+          <p>This inherits its font style and color from the panel.</p>
+          <p class="direct-color">This is targeted directly, so blue beats inherited green.</p>
+        </div>
+        <div class="demo-panel">
+          <h3>Specificity and source order</h3>
+          <blockquote class="specificity-result">A class beats the element selector, so this is purple.</blockquote>
+          <p class="source-order-result">Equal-specificity rules apply; the later orange border wins.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="box-title">
+        <h2 id="box-title">2. Box model</h2>
+        <p>Both declare <code>width: 18rem</code>. Content-box grows; border-box stays 18rem.</p>
+        <div class="box-stage" aria-label="Box model comparison">
+          <div class="sizing-box content-box-demo">
+            <strong>content-box</strong><span>Width controls only content.</span>
+          </div>
+          <div class="sizing-box border-box-demo">
+            <strong>border-box</strong><span>Width includes padding and border.</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="flow-title">
+        <h2 id="flow-title">3. Normal flow and display</h2>
+        <div class="demo-panel">
+          <p class="block-example">A paragraph is a block box.</p>
+          <p class="block-example">The next paragraph starts on a new line.</p>
+          <p>Inside a line, <span class="inline-example">a span stays inline</span> with surrounding text.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="overflow-title">
+        <h2 id="overflow-title">4. Intentional overflow</h2>
+        <div class="overflow-demo" tabindex="0" aria-label="Scrollable release notes">
+          <h3>Release notes</h3>
+          <p>Added semantic landmarks and accessible labels.</p>
+          <p>Added visible keyboard focus and a skip link.</p>
+          <p>Added cascade and specificity documentation.</p>
+          <p>Added box-model and normal-flow demonstrations.</p>
+          <p>More content creates overflow, so this region scrolls.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer><p>Prepared learning example · No exercise required</p></footer>
+  </body>
+</html>
+
+

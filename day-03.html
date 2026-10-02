@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Master Flexbox axes, alignment, sizing, wrapping, responsive patterns, and the common min-width trap." />
+    <title>Day 3 · Flexbox Layout</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-03">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 03</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 03 · About 60 minutes</p>
+              <h1>Flexbox Layout</h1>
+              <p class="lesson-lead">Master Flexbox axes, alignment, sizing, wrapping, responsive patterns, and the common min-width trap.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-03/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">CSS-05</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Understand Flexbox well enough to explain its mental model, predict how items size and align, and recognize when it is the right layout tool. You do not need to write code. Read the lesson, inspect the finished header and filter toolbar, then read the supplied interview answer.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-35 minutes: read the prepared lesson.</li>
+<li>35-50 minutes: inspect the finished example and its CSS.</li>
+<li>50-55 minutes: review the debugging checklist and common mistakes.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>CSS-05</code>.</li>
+</ul>
+</section>
+<section class="content-card" id="1-what-flexbox-solves"><h2>1. What Flexbox solves</h2>
+<p>Flexbox is a one-dimensional layout model. It arranges a group of direct children along one primary direction: a row or a column. It is especially useful for navigation, toolbars, button groups, media objects, form controls, centered content, and components whose items must align or distribute available space.</p>
+<p>Use Flexbox when the relationship between items in one dimension is the main problem. Use Grid when rows and columns must be designed together. A page can use Grid for its larger two-dimensional structure and Flexbox inside individual components.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="css">.toolbar {
+  display: flex;
+}</code></div>
+<p>Only the direct children of <code>.toolbar</code> become flex items. Deeper descendants keep their own layout unless another container also receives <code>display: flex</code>.</p>
+</section>
+<section class="content-card" id="2-container-items-and-axes"><h2>2. Container, items, and axes</h2>
+<p>Every Flexbox decision starts with three ideas:</p>
+<ul>
+<li>The element with <code>display: flex</code> is the flex container.</li>
+<li>Its direct children are flex items.</li>
+<li>The main axis follows <code>flex-direction</code>; the cross axis is perpendicular to it.</li>
+</ul>
+<p>The default <code>flex-direction</code> is <code>row</code>. In a left-to-right English page, the main axis usually runs horizontally and the cross axis vertically. With <code>flex-direction: column</code>, the main axis becomes vertical and the cross axis becomes horizontal.</p>
+<p>Do not memorize <code>justify-content</code> as “horizontal” and <code>align-items</code> as “vertical.” Those descriptions fail as soon as direction changes. Remember axes instead.</p>
+</section>
+<section class="content-card" id="3-the-useful-defaults"><h2>3. The useful defaults</h2>
+<p>When a parent becomes a flex container, the initial behavior is approximately:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="css">.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.container &gt; * {
+  flex: 0 1 auto;
+}</code></div>
+<p>Items line up in a row, stay on one line, do not grow, can shrink, and begin from an automatic base size. They stretch across the cross axis when their cross size is automatic.</p>
+<p>Understanding the defaults prevents unnecessary declarations and explains why items sometimes shrink or become equal height without being asked explicitly.</p>
+</section>
+<section class="content-card" id="4-direction-and-visual-order"><h2>4. Direction and visual order</h2>
+<p><code>flex-direction</code> accepts <code>row</code>, <code>row-reverse</code>, <code>column</code>, and <code>column-reverse</code>.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="css">.actions {
+  display: flex;
+  flex-direction: row;
+}</code></div>
+<p>Prefer normal document order and a non-reversed direction. Reverse directions and the <code>order</code> property can make the visual sequence differ from DOM, reading, and keyboard order. That can confuse keyboard and screen-reader users. Reorder the HTML when the content order itself should change.</p>
+</section>
+<section class="content-card" id="5-main-axis-alignment-with-justify-content"><h2>5. Main-axis alignment with justify-content</h2>
+<p><code>justify-content</code> distributes unused space on the main axis after item sizes are calculated.</p>
+<ul>
+<li><code>flex-start</code>: pack items at main-start.</li>
+<li><code>flex-end</code>: pack items at main-end.</li>
+<li><code>center</code>: center the group.</li>
+<li><code>space-between</code>: place remaining space only between items.</li>
+<li><code>space-around</code>: give each item equal surrounding space, creating half-sized space at the outer edges.</li>
+<li><code>space-evenly</code>: make every gap, including outer gaps, equal.</li>
+</ul>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="css">.header-row {
+  display: flex;
+  justify-content: space-between;
+}</code></div>
+<p>If a growing item consumes all positive free space, <code>justify-content</code> may appear to do nothing because there is no free space left to distribute.</p>
+</section>
+<section class="content-card" id="6-cross-axis-alignment-with-align-items"><h2>6. Cross-axis alignment with align-items</h2>
+<p><code>align-items</code> sets the default alignment for all items on the cross axis.</p>
+<ul>
+<li><code>stretch</code>: fill the cross size when that size is automatic.</li>
+<li><code>flex-start</code> and <code>flex-end</code>: align to either cross-axis edge.</li>
+<li><code>center</code>: center items on the cross axis.</li>
+<li><code>baseline</code>: align text baselines, useful when controls contain different font sizes.</li>
+</ul>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="css">.header-row {
+  display: flex;
+  align-items: center;
+}</code></div>
+<p><code>align-self</code> overrides cross-axis alignment for one item. <code>align-content</code> is different: it distributes multiple flex lines and normally has no visible effect on a single-line container.</p>
+</section>
+<section class="content-card" id="7-use-gap-for-spacing"><h2>7. Use gap for spacing</h2>
+<p><code>gap</code> adds consistent space between flex items without adding space at the outside edges.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="css">.toolbar {
+  display: flex;
+  gap: 0.75rem;
+}</code></div>
+<p>This is usually clearer than giving every child a margin and then removing the first or last margin. Use <code>row-gap</code> and <code>column-gap</code> when the two directions need different values.</p>
+</section>
+<section class="content-card" id="8-wrapping"><h2>8. Wrapping</h2>
+<p>Flex containers do not wrap by default. <code>flex-wrap: wrap</code> allows items that no longer fit to move to another line.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-7">Copy</button><code id="lesson-code-7" data-language="css">.filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}</code></div>
+<p>Each flex line distributes its space independently. Wrapping does not create a true two-dimensional grid, so columns on separate rows do not automatically align. If aligned rows and columns matter, Grid is the better model.</p>
+</section>
+<section class="content-card" id="9-how-flex-items-are-sized"><h2>9. How flex items are sized</h2>
+<p>The <code>flex</code> shorthand controls three values in this order:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-8">Copy</button><code id="lesson-code-8" data-language="css">.item {
+  flex: &lt;grow&gt; &lt;shrink&gt; &lt;basis&gt;;
+}</code></div>
+<ul>
+<li><code>flex-basis</code>: the initial main size before free space is shared.</li>
+<li><code>flex-grow</code>: the item's share of positive free space.</li>
+<li><code>flex-shrink</code>: how the item participates when space is insufficient.</li>
+</ul>
+<p>Think of the algorithm as: establish base sizes, calculate remaining or missing space, then grow or shrink eligible items.</p>
+</section>
+<section class="content-card" id="10-practical-flex-shorthand-values"><h2>10. Practical flex shorthand values</h2>
+<p>Prefer recognizable shorthand patterns instead of three unexplained numbers.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Value</th>
+<th>Practical meaning</th>
+<th>Common use</th>
+</tr></thead><tbody>
+<tr>
+<td><code>flex: initial</code></td>
+<td><code>0 1 auto</code>; do not grow, may shrink</td>
+<td>default-sized control</td>
+</tr>
+<tr>
+<td><code>flex: auto</code></td>
+<td><code>1 1 auto</code>; start from content/size and flex</td>
+<td>flexible search field</td>
+</tr>
+<tr>
+<td><code>flex: none</code></td>
+<td><code>0 0 auto</code>; neither grow nor shrink</td>
+<td>fixed logo or icon button</td>
+</tr>
+<tr>
+<td><code>flex: 1</code></td>
+<td>commonly <code>1 1 0</code>; share space from a zero basis</td>
+<td>equal flexible items</td>
+</tr>
+<tr>
+<td><code>flex: 0 1 20rem</code></td>
+<td>start near 20rem and shrink if necessary</td>
+<td>resilient content panel</td>
+</tr>
+</tbody></table></div>
+<p><code>flex-grow: 2</code> does not mean “twice as wide” in every case. Growth factors divide only the positive free space, and items may begin with different base sizes.</p>
+</section>
+<section class="content-card" id="11-the-min-width-trap"><h2>11. The min-width trap</h2>
+<p>Flex items have an automatic minimum size based on their content. A long URL, filename, or unbroken label can prevent a supposedly flexible item from shrinking and can overflow the container.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-9">Copy</button><code id="lesson-code-9" data-language="css">.search-group {
+  flex: 1 1 20rem;
+  min-width: 0;
+}</code></div>
+<p><code>min-width: 0</code> explicitly permits the item to shrink below its content-based minimum. Combine it with appropriate text wrapping or overflow rules. This is one of the most useful Flexbox debugging fixes, but use it on the item that genuinely needs permission to shrink.</p>
+</section>
+<section class="content-card" id="12-auto-margins-for-split-alignment"><h2>12. Auto margins for split alignment</h2>
+<p>An auto margin on a flex item absorbs available space on its axis.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-10">Copy</button><code id="lesson-code-10" data-language="css">.profile-actions {
+  margin-inline-start: auto;
+}</code></div>
+<p>This creates a reliable split-navigation pattern: items before the auto margin stay at one side and the selected item plus following items move to the other. Logical properties such as <code>margin-inline-start</code> adapt better to writing direction than physical <code>margin-left</code>.</p>
+</section>
+<section class="content-card" id="13-a-resilient-header-pattern"><h2>13. A resilient header pattern</h2>
+<p>The finished example uses nested flex containers because each level solves its own one-dimensional problem:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-11">Copy</button><code id="lesson-code-11" data-language="css">.site-header__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.primary-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.account-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}</code></div>
+<p>The outer row aligns brand, navigation, and actions. The navigation manages its own links. The account group stays together and uses an auto margin to occupy the far edge.</p>
+</section>
+<section class="content-card" id="14-a-resilient-toolbar-pattern"><h2>14. A resilient toolbar pattern</h2>
+<p>The supplied job-search toolbar has a flexible search field, wrapping filter controls, and an action group.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-12">Copy</button><code id="lesson-code-12" data-language="css">.search-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+}
+
+.search-field {
+  flex: 1 1 20rem;
+  min-width: min(100%, 16rem);
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}</code></div>
+<p>The toolbar can wrap naturally before any media query is needed. The search field receives positive space, can shrink, and begins from a useful basis. The actions remain a content-sized group.</p>
+</section>
+<section class="content-card" id="15-flexbox-and-responsive-design"><h2>15. Flexbox and responsive design</h2>
+<p>Flexbox is naturally responsive because items can grow, shrink, and wrap. Media queries should change a layout only when the content needs a deliberate mode change.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-13">Copy</button><code id="lesson-code-13" data-language="css">@media (max-width: 42rem) {
+  .site-header__row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .account-actions {
+    margin-inline-start: 0;
+  }
+}</code></div>
+<p>Avoid choosing a breakpoint because a particular phone has that width. Resize until the content becomes cramped, then place the breakpoint slightly before that failure.</p>
+</section>
+<section class="content-card" id="16-accessibility-and-source-order"><h2>16. Accessibility and source order</h2>
+<p>Flexbox changes presentation, not semantics. Keep landmarks, headings, lists, labels, buttons, and links appropriate to their purpose. Preserve a logical DOM order because keyboard navigation and assistive technologies generally follow document order, not a visual order produced by <code>order</code> or reversed directions.</p>
+<p>Wrapping must not hide keyboard focus, and controls should retain readable labels and comfortable target sizes. Zoom to 200% and check that wrapped controls remain usable without horizontal page scrolling.</p>
+</section>
+<section class="content-card" id="17-debugging-flexbox-in-devtools"><h2>17. Debugging Flexbox in DevTools</h2>
+<p>Use this sequence instead of changing random properties:</p>
+<ol>
+<li>Confirm the correct parent has <code>display: flex</code>.</li>
+<li>Identify the direct flex items.</li>
+<li>Mark the main and cross axes from <code>flex-direction</code>.</li>
+<li>Check whether wrapping is allowed.</li>
+<li>Inspect each item's computed <code>flex-basis</code>, grow, shrink, width, and minimum size.</li>
+<li>Determine whether positive or negative free space exists.</li>
+<li>Check auto margins before debugging <code>justify-content</code>.</li>
+<li>Distinguish <code>align-items</code> from multi-line <code>align-content</code>.</li>
+<li>Verify that long content can shrink or wrap.</li>
+<li>Inspect at narrow widths and 200% zoom.</li>
+</ol>
+<p>Browser DevTools can highlight flex containers, show line boundaries, and visualize gaps and alignment. Use those overlays to make the invisible axes visible.</p>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 03 Flexbox/index.html</code></li>
+<li><code>Study Code/Examples/Day 03 Flexbox/styles.css</code></li>
+</ul>
+<p>The example contains a nested Flexbox header, wrapping job-search toolbar, growing search field, content-sized actions, filter chips, and a narrow-screen mode. The same files are embedded below on the study website.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>What happens</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Memorizing justify as horizontal</td>
+<td>Alignment breaks mentally in column layouts</td>
+<td>Reason from main and cross axes</td>
+</tr>
+<tr>
+<td>Putting <code>display: flex</code> on each item</td>
+<td>The wrong relationship is controlled</td>
+<td>Put it on the parent whose direct children should align</td>
+</tr>
+<tr>
+<td>Using <code>align-content</code> on one line</td>
+<td>Nothing appears to change</td>
+<td>Use <code>align-items</code>; reserve <code>align-content</code> for multiple lines</td>
+</tr>
+<tr>
+<td>Adding margins to every child</td>
+<td>Outer spacing and overrides become messy</td>
+<td>Use <code>gap</code> on the container</td>
+</tr>
+<tr>
+<td>Assuming <code>flex-grow: 2</code> means twice the width</td>
+<td>Different base sizes change the result</td>
+<td>Remember that grow divides remaining space</td>
+</tr>
+<tr>
+<td>Forgetting <code>flex-wrap</code></td>
+<td>Controls squeeze or overflow</td>
+<td>Enable wrapping when multiple lines are acceptable</td>
+</tr>
+<tr>
+<td>Long content refuses to shrink</td>
+<td>A flex item overflows the container</td>
+<td>Apply <code>min-width: 0</code> to the flexible item and handle text</td>
+</tr>
+<tr>
+<td>Using <code>order</code> for meaningful sequence</td>
+<td>Visual, keyboard, and reading order disagree</td>
+<td>Keep logical DOM order</td>
+</tr>
+<tr>
+<td>Using Flexbox for aligned rows and columns</td>
+<td>Separate lines do not share tracks</td>
+<td>Use Grid for two-dimensional alignment</td>
+</tr>
+<tr>
+<td>Adding many device breakpoints</td>
+<td>CSS becomes fragile</td>
+<td>Let flex sizing and wrapping work; query at content failures</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> Explain how Flexbox lays out and sizes items. When would you choose it instead of Grid?</p>
+<p><strong>Model answer:</strong></p>
+<p>Flexbox is a one-dimensional layout model for arranging a container's direct children along a main axis, with a perpendicular cross axis. <code>flex-direction</code> defines the main axis. <code>justify-content</code> distributes remaining space on that axis, while <code>align-items</code> controls the default cross-axis alignment. Item sizing starts from <code>flex-basis</code>; then <code>flex-grow</code> shares positive free space and <code>flex-shrink</code> removes space when the items do not fit. I normally use the <code>flex</code> shorthand, <code>gap</code>, and wrapping, and I watch for the content-based automatic minimum size—sometimes a flexible child needs <code>min-width: 0</code>. I choose Flexbox for a row or column relationship such as navigation, a toolbar, or an action group. I choose Grid when I need rows and columns to share tracks. I also preserve logical DOM order instead of using <code>order</code> or reverse directions for meaningful content because visual reordering can disagree with keyboard and reading order.</p>
+</section>
+<section class="content-card" id="quick-recall-sheet"><h2>Quick recall sheet</h2>
+<ul>
+<li>Flexbox controls one dimension at a time.</li>
+<li><code>display: flex</code> affects direct children.</li>
+<li><code>flex-direction</code> defines the main axis.</li>
+<li><code>justify-content</code> works on the main axis.</li>
+<li><code>align-items</code> works on the cross axis.</li>
+<li><code>align-content</code> needs multiple lines and available cross-axis space.</li>
+<li><code>gap</code> creates spacing between items.</li>
+<li><code>flex-wrap: wrap</code> permits new flex lines.</li>
+<li><code>flex</code> means grow, shrink, and basis.</li>
+<li><code>min-width: 0</code> can allow an overflowing flexible child to shrink.</li>
+<li>Auto margins absorb free space.</li>
+<li>Keep visual order consistent with DOM order.</li>
+</ul>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and walkthrough, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>CSS-05</code> Flexbox</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts">MDN: Basic concepts of flexbox</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Aligning_items">MDN: Aligning items in a flex container</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Controlling_flex_item_ratios">MDN: Controlling ratios of flex items</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Use_cases">MDN: Typical use cases of flexbox</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Relationship_with_other_layout_methods">MDN: Relationship of flexbox to other layout methods</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-03/index.html" title="Day 3 Flexbox header and toolbar example"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-02.html"><small>Previous lesson</small><strong>← Day 2</strong></a>
+                <a href="index.html"><small>Course</small><strong>Dashboard →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-what-flexbox-solves">What Flexbox solves</a></li><li><a href="#2-container-items-and-axes">Container, items, and axes</a></li><li><a href="#3-the-useful-defaults">The useful defaults</a></li><li><a href="#4-direction-and-visual-order">Direction and visual order</a></li><li><a href="#5-main-axis-alignment-with-justify-content">Main-axis alignment with justify-content</a></li><li><a href="#6-cross-axis-alignment-with-align-items">Cross-axis alignment with align-items</a></li><li><a href="#7-use-gap-for-spacing">Use gap for spacing</a></li><li><a href="#8-wrapping">Wrapping</a></li><li><a href="#9-how-flex-items-are-sized">How flex items are sized</a></li><li><a href="#10-practical-flex-shorthand-values">Practical flex shorthand values</a></li><li><a href="#11-the-min-width-trap">The min-width trap</a></li><li><a href="#12-auto-margins-for-split-alignment">Auto margins for split alignment</a></li><li><a href="#13-a-resilient-header-pattern">A resilient header pattern</a></li><li><a href="#14-a-resilient-toolbar-pattern">A resilient toolbar pattern</a></li><li><a href="#15-flexbox-and-responsive-design">Flexbox and responsive design</a></li><li><a href="#16-accessibility-and-source-order">Accessibility and source order</a></li><li><a href="#17-debugging-flexbox-in-devtools">Debugging Flexbox in DevTools</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#quick-recall-sheet">Quick recall sheet</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

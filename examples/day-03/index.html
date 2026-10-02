@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A finished Flexbox header and job-search toolbar example." />
+    <title>Flexbox Job Search Workspace</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to job search</a>
+
+    <header class="site-header">
+      <div class="site-header__row">
+        <a class="brand" href="#" aria-label="Career Deck home">
+          <span class="brand__mark" aria-hidden="true">CD</span>
+          <span><strong>Career Deck</strong><small>Frontend opportunities</small></span>
+        </a>
+
+        <nav aria-label="Primary navigation">
+          <ul class="primary-nav">
+            <li><a class="is-current" href="#main-content">Discover</a></li>
+            <li><a href="#saved">Saved</a></li>
+            <li><a href="#applications">Applications</a></li>
+          </ul>
+        </nav>
+
+        <div class="account-actions">
+          <button class="icon-button" type="button" aria-label="Open notifications">3</button>
+          <button class="avatar-button" type="button"><span aria-hidden="true">SK</span> Sanket</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Day 03 prepared example</p>
+        <h1 id="page-title">Find the right frontend role</h1>
+        <p>Resize the page and watch the header, filters, and actions grow, shrink, and wrap without changing their logical order.</p>
+      </section>
+
+      <form class="search-toolbar" role="search">
+        <label class="field search-field">
+          <span>Role or skill</span>
+          <input type="search" value="Frontend developer" />
+        </label>
+
+        <label class="field select-field">
+          <span>Location</span>
+          <select>
+            <option>Remote</option>
+            <option>Mumbai</option>
+            <option>Pune</option>
+            <option>Bengaluru</option>
+          </select>
+        </label>
+
+        <div class="toolbar-actions">
+          <button class="button button--quiet" type="reset">Clear</button>
+          <button class="button button--primary" type="submit">Search jobs</button>
+        </div>
+      </form>
+
+      <section class="filters" aria-labelledby="filter-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Flexible rows</p>
+            <h2 id="filter-title">Popular filters</h2>
+          </div>
+          <span class="result-count">128 roles</span>
+        </div>
+        <div class="filter-list">
+          <button type="button" aria-pressed="true">React</button>
+          <button type="button" aria-pressed="false">TypeScript</button>
+          <button type="button" aria-pressed="false">Next.js</button>
+          <button type="button" aria-pressed="false">Remote</button>
+          <button type="button" aria-pressed="false">Mid-level</button>
+          <button type="button" aria-pressed="false">Posted this week</button>
+        </div>
+      </section>
+
+      <section class="concept-strip" aria-label="Flexbox concepts demonstrated">
+        <article><strong>Main axis</strong><span>Items follow the selected direction.</span></article>
+        <article><strong>Flexible sizing</strong><span>The search field receives available space.</span></article>
+        <article><strong>Wrapping</strong><span>Controls move to new lines when needed.</span></article>
+      </section>
+    </main>
+
+    <footer><p>Prepared learning example · No exercise required</p></footer>
+  </body>
+</html>

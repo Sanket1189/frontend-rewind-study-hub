@@ -720,11 +720,7 @@ th {
   }
 
   .lesson-toc {
-    position: static;
-    order: -1;
-    border: 1px solid var(--line);
-    border-radius: 0.75rem;
-    background: var(--surface);
+    display: none;
   }
 
   .preview-frame {

@@ -13,6 +13,13 @@ const courseDays = [
     description: "Cascade, box model, and flow",
     href: "day-02.html",
   },
+  {
+    id: "day-03",
+    number: "03",
+    title: "Flexbox Layout",
+    description: "Axes, alignment, sizing, and wrapping",
+    href: "day-03.html",
+  },
 ];
 
 const storageKey = "frontend-study-progress-v1";

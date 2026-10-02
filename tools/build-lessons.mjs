@@ -31,6 +31,19 @@ const lessons = [
     example: "examples/day-02/index.html",
     exampleTitle: "Day 2 CSS foundations example",
     previous: { href: "day-01.html", label: "Day 1", eyebrow: "Previous lesson" },
+    next: { href: "day-03.html", label: "Day 3", eyebrow: "Next lesson" },
+  },
+  {
+    dayId: "day-03",
+    dayNumber: "03",
+    source: "Study Code/Lessons/Day 03 - Flexbox Layout.md",
+    output: "day-03.html",
+    description:
+      "Master Flexbox axes, alignment, sizing, wrapping, responsive patterns, and the common min-width trap.",
+    topics: ["CSS-05"],
+    example: "examples/day-03/index.html",
+    exampleTitle: "Day 3 Flexbox header and toolbar example",
+    previous: { href: "day-02.html", label: "Day 2", eyebrow: "Previous lesson" },
     next: { href: "index.html", label: "Dashboard", eyebrow: "Course" },
   },
 ];

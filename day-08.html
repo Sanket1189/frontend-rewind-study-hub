@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Build a reliable mental model for JavaScript values, conversion, truthiness, equality, and safe defaults." />
+    <title>Day 8 · JavaScript Types, Coercion, Truthiness, and Equality</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-08">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 08</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 08 · About 60 minutes</p>
+              <h1>JavaScript Types, Coercion, Truthiness, and Equality</h1>
+              <p class="lesson-lead">Build a reliable mental model for JavaScript values, conversion, truthiness, equality, and safe defaults.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-08/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">JS-01</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Build a reliable mental model for JavaScript values. You will learn the primitive and object categories, inspect <code>typeof</code>, predict explicit and implicit conversion, distinguish falsy from nullish values, choose the right equality operation, and inspect a finished Value Lab that explains every result for you.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-30 minutes: read the types, coercion, and truthiness sections.</li>
+<li>30-48 minutes: inspect every scenario in the finished Value Lab.</li>
+<li>48-55 minutes: read the production rules and bug patterns.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>JS-01</code>.</li>
+</ul>
+</section>
+<section class="content-card" id="1-variables-do-not-have-fixed-types-values-do"><h2>1. Variables do not have fixed types; values do</h2>
+<p>JavaScript is dynamically typed. A variable can refer to values of different types at different moments:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="js">let result = 42;       // number
+result = &quot;pending&quot;;   // string
+result = null;        // null primitive</code></div>
+<p>This flexibility is useful, but it means input boundaries and conversions must be deliberate. The runtime will sometimes convert values automatically, so frontend bugs often come from assuming a value is already the type its name suggests.</p>
+</section>
+<section class="content-card" id="2-the-eight-javascript-types"><h2>2. The eight JavaScript types</h2>
+<p>JavaScript has seven primitive types and one object category.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Type</th>
+<th>Example</th>
+<th><code>typeof</code> result</th>
+<th>Main idea</th>
+</tr></thead><tbody>
+<tr>
+<td><code>undefined</code></td>
+<td><code>undefined</code></td>
+<td><code>&quot;undefined&quot;</code></td>
+<td>Missing or not assigned</td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td><code>null</code></td>
+<td><code>&quot;object&quot;</code></td>
+<td>Intentional absence; legacy <code>typeof</code> exception</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td><code>&quot;boolean&quot;</code></td>
+<td>Logical state</td>
+</tr>
+<tr>
+<td>Number</td>
+<td><code>42</code>, <code>NaN</code></td>
+<td><code>&quot;number&quot;</code></td>
+<td>Floating-point numeric values</td>
+</tr>
+<tr>
+<td>BigInt</td>
+<td><code>42n</code></td>
+<td><code>&quot;bigint&quot;</code></td>
+<td>Arbitrarily large integers</td>
+</tr>
+<tr>
+<td>String</td>
+<td><code>&quot;hello&quot;</code></td>
+<td><code>&quot;string&quot;</code></td>
+<td>Text</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td><code>Symbol(&quot;id&quot;)</code></td>
+<td><code>&quot;symbol&quot;</code></td>
+<td>Unique identity token</td>
+</tr>
+<tr>
+<td>Object</td>
+<td><code>{}</code>, <code>[]</code>, functions</td>
+<td>usually <code>&quot;object&quot;</code></td>
+<td>Mutable reference value</td>
+</tr>
+</tbody></table></div>
+<p>Functions are callable objects, and <code>typeof functionName</code> returns <code>&quot;function&quot;</code>. Arrays are objects, so detect them with <code>Array.isArray(value)</code> rather than <code>typeof</code>.</p>
+</section>
+<section class="content-card" id="3-primitives-versus-objects"><h2>3. Primitives versus objects</h2>
+<p>Primitive values are immutable. A string method appears to act on a string, but it returns a new value rather than modifying the original primitive.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="js">const role = &quot;frontend&quot;;
+const upperRole = role.toUpperCase();
+
+console.log(role);      // &quot;frontend&quot;
+console.log(upperRole); // &quot;FRONTEND&quot;</code></div>
+<p>Objects are reference values. A <code>const</code> object binding cannot be reassigned, but the referenced object's properties can still change.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="js">const profile = { name: &quot;Sanket&quot; };
+profile.name = &quot;Sanket K.&quot;; // allowed
+// profile = {};             // TypeError</code></div>
+<p><code>const</code> protects the binding, not deep object contents.</p>
+</section>
+<section class="content-card" id="4-reference-equality"><h2>4. Reference equality</h2>
+<p>Primitive equality compares values. Object equality compares identity—the reference—not matching structure.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="js">&quot;React&quot; === &quot;React&quot;; // true
+
+{} === {};            // false: two different objects
+[] === [];            // false: two different arrays
+
+const first = { id: 1 };
+const alias = first;
+first === alias;       // true: the same object</code></div>
+<p>JavaScript has no built-in general deep-equality operator. In application code, compare stable identifiers or the specific fields that matter instead of converting whole objects to strings and hoping their structures match.</p>
+</section>
+<section class="content-card" id="5-use-typeof-carefully"><h2>5. Use typeof carefully</h2>
+<p><code>typeof</code> is excellent for most primitives and functions, but it has known edges:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="js">typeof &quot;hello&quot;;       // &quot;string&quot;
+typeof 12;            // &quot;number&quot;
+typeof undefined;     // &quot;undefined&quot;
+typeof null;          // &quot;object&quot; — historical behavior
+typeof [];            // &quot;object&quot;
+typeof function () {}; // &quot;function&quot;</code></div>
+<p>A practical type check often combines tools:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="js">function describe(value) {
+  if (value === null) return &quot;null&quot;;
+  if (Array.isArray(value)) return &quot;array&quot;;
+  return typeof value;
+}</code></div>
+</section>
+<section class="content-card" id="6-explicit-conversion-communicates-intent"><h2>6. Explicit conversion communicates intent</h2>
+<p>Prefer explicit conversion at boundaries such as form fields, URL parameters, storage, and API payloads.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-7">Copy</button><code id="lesson-code-7" data-language="js">const quantityText = &quot;12&quot;;
+const quantity = Number(quantityText);
+const label = String(quantity);
+const hasQuantity = Boolean(quantity);</code></div>
+<p><code>Number()</code> converts the entire value using numeric conversion rules. <code>parseInt()</code> parses an integer prefix and can accept trailing characters, so it solves a different problem.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-8">Copy</button><code id="lesson-code-8" data-language="js">Number(&quot;12px&quot;);          // NaN
+Number.parseInt(&quot;12px&quot;, 10); // 12</code></div>
+<p>Choose based on the input contract. A strict quantity field should normally reject <code>&quot;12px&quot;</code>, not silently accept the prefix.</p>
+</section>
+<section class="content-card" id="7-implicit-coercion-and-the-plus-operator"><h2>7. Implicit coercion and the plus operator</h2>
+<p>Operators can request conversions. The <code>+</code> operator is especially important because it performs either addition or string concatenation.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-9">Copy</button><code id="lesson-code-9" data-language="js">2 + 3;       // 5
+&quot;2&quot; + 3;    // &quot;23&quot;
+2 + &quot;3&quot;;    // &quot;23&quot;
+&quot;Total: &quot; + 3; // &quot;Total: 3&quot;</code></div>
+<p>If either primitive operand becomes a string, <code>+</code> concatenates. Other arithmetic operators normally request numeric conversion:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-10">Copy</button><code id="lesson-code-10" data-language="js">&quot;8&quot; - 3; // 5
+&quot;8&quot; * 3; // 24
+&quot;8&quot; / 2; // 4</code></div>
+<p>Do not use these differences as conversion shortcuts. Convert first, validate, then calculate.</p>
+</section>
+<section class="content-card" id="8-nan-is-a-number-value-representing-failure"><h2>8. NaN is a number value representing failure</h2>
+<p><code>NaN</code> means “Not a Number,” but its JavaScript type is still number.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-11">Copy</button><code id="lesson-code-11" data-language="js">const amount = Number(&quot;twelve&quot;);
+
+typeof amount;          // &quot;number&quot;
+amount === NaN;         // false
+Number.isNaN(amount);   // true</code></div>
+<p>Use <code>Number.isNaN(value)</code> to check this exact numeric failure value. The global <code>isNaN()</code> coerces its argument first and can therefore answer a different question.</p>
+</section>
+<section class="content-card" id="9-truthy-and-falsy-values"><h2>9. Truthy and falsy values</h2>
+<p>Conditions convert a value to Boolean. The falsy values you need in everyday code are:</p>
+<ul>
+<li><code>false</code></li>
+<li><code>0</code> and <code>-0</code></li>
+<li><code>0n</code></li>
+<li><code>&quot;&quot;</code> — the empty string</li>
+<li><code>null</code></li>
+<li><code>undefined</code></li>
+<li><code>NaN</code></li>
+</ul>
+<p>Every ordinary object is truthy, including empty arrays and empty objects. Non-empty strings are truthy even when their text looks negative.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-12">Copy</button><code id="lesson-code-12" data-language="js">Boolean([]);       // true
+Boolean({});       // true
+Boolean(&quot;0&quot;);      // true
+Boolean(&quot;false&quot;);  // true
+Boolean(&quot;&quot;);       // false</code></div>
+<p>Do not confuse “falsy” with “loosely equal to false.” They are different language operations.</p>
+</section>
+<section class="content-card" id="10-logical-operators-return-operands"><h2>10. Logical operators return operands</h2>
+<p><code>&amp;&amp;</code> and <code>||</code> do not always return Booleans. They short-circuit and return one of their original operands.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-13">Copy</button><code id="lesson-code-13" data-language="js">&quot;Sanket&quot; &amp;&amp; &quot;Dashboard&quot;; // &quot;Dashboard&quot;
+0 &amp;&amp; loadResults();       // 0; function is not called
+&quot;&quot; || &quot;Anonymous&quot;;        // &quot;Anonymous&quot;
+&quot;React&quot; || &quot;Fallback&quot;;   // &quot;React&quot;</code></div>
+<p>Use <code>Boolean(value)</code> or <code>!!value</code> when you specifically need a Boolean. In UI code, remember that rendering <code>count &amp;&amp; component</code> can expose <code>0</code> in some rendering systems because the returned value is the number zero, not <code>false</code>.</p>
+</section>
+<section class="content-card" id="11-falsy-is-broader-than-nullish"><h2>11. Falsy is broader than nullish</h2>
+<p>The nullish values are only <code>null</code> and <code>undefined</code>. This difference matters when valid data can be <code>0</code>, <code>false</code>, or an empty string.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-14">Copy</button><code id="lesson-code-14" data-language="js">const attempts = 0;
+
+attempts || 3; // 3 — replaces the valid zero
+attempts ?? 3; // 0 — defaults only for null or undefined</code></div>
+<p>Use <code>||</code> when every falsy value means “use the fallback.” Use <code>??</code> when only missing nullish data should use the fallback.</p>
+</section>
+<section class="content-card" id="12-strict-equality-is-the-default"><h2>12. Strict equality is the default</h2>
+<p>Strict equality <code>===</code> compares without converting operands. Different types are unequal.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-15">Copy</button><code id="lesson-code-15" data-language="js">3 === 3;          // true
+3 === &quot;3&quot;;        // false
+false === 0;      // false
+null === undefined; // false</code></div>
+<p>Loose equality <code>==</code> applies a conversion algorithm before comparison. It can produce results that are difficult to understand during a quick code review.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-16">Copy</button><code id="lesson-code-16" data-language="js">0 == false;       // true
+&quot;&quot; == 0;          // true
+&quot;0&quot; == false;     // true
+null == undefined; // true</code></div>
+<p>Prefer <code>===</code> and <code>!==</code>. An intentional <code>value == null</code> is sometimes used to match both <code>null</code> and <code>undefined</code>, but it should be a deliberate team convention, not an accidental shortcut.</p>
+</section>
+<section class="content-card" id="13-object-is-and-special-numeric-cases"><h2>13. Object.is and special numeric cases</h2>
+<p><code>Object.is()</code> mostly resembles strict equality but differs for <code>NaN</code> and signed zero.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-17">Copy</button><code id="lesson-code-17" data-language="js">NaN === NaN;              // false
+Object.is(NaN, NaN);      // true
+
+0 === -0;                 // true
+Object.is(0, -0);         // false</code></div>
+<p>Most business comparisons should still use <code>===</code>. Use <code>Object.is()</code> when those exact special cases matter. React also uses <code>Object.is</code> semantics in several change comparisons, which makes this distinction useful later.</p>
+</section>
+<section class="content-card" id="14-null-and-undefined"><h2>14. Null and undefined</h2>
+<p>Both represent absence, but they commonly communicate different origins:</p>
+<ul>
+<li><code>undefined</code> often means no value was supplied, assigned, found, or returned.</li>
+<li><code>null</code> often means absence was deliberately represented.</li>
+</ul>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-18">Copy</button><code id="lesson-code-18" data-language="js">let selectedRole;                   // undefined
+document.querySelector(&quot;.missing&quot;); // null</code></div>
+<p>Choose a clear convention inside your own data model. At external boundaries, expect either and normalize them if the distinction does not matter.</p>
+</section>
+<section class="content-card" id="15-a-safe-input-boundary-pattern"><h2>15. A safe input-boundary pattern</h2>
+<p>Browser inputs produce strings, even for many fields that appear numeric. Convert and validate once near the boundary.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-19">Copy</button><code id="lesson-code-19" data-language="js">function parseYearsExperience(rawValue) {
+  const value = Number(rawValue);
+
+  if (!Number.isFinite(value) || value &lt; 0) {
+    return { ok: false, error: &quot;Enter zero or a positive number.&quot; };
+  }
+
+  return { ok: true, value };
+}</code></div>
+<p>The rest of the application can now consume a validated number instead of repeating coercion assumptions.</p>
+</section>
+<section class="content-card" id="16-predict-code-in-three-steps"><h2>16. Predict code in three steps</h2>
+<p>When an output question looks strange, do not guess. Trace it:</p>
+<ol>
+<li>Identify the type and value of each operand.</li>
+<li>Identify which conversion the operator requests.</li>
+<li>Apply the operator to the converted values.</li>
+</ol>
+<p>For <code>[] == false</code>:</p>
+<ol>
+<li>The operands are an object and a Boolean.</li>
+<li>Loose equality converts the object toward a primitive and the Boolean toward a number.</li>
+<li>The empty array becomes an empty string, then zero; <code>false</code> becomes zero, so the comparison is true.</li>
+</ol>
+<p>The important production lesson is not to memorize the puzzle. It is to use strict equality and explicit conversion so application intent remains visible.</p>
+</section>
+<section class="content-card" id="17-inspect-the-finished-value-lab"><h2>17. Inspect the finished Value Lab</h2>
+<p>The example contains prepared scenarios rather than asking you to write code. Select each scenario to see:</p>
+<ul>
+<li>The exact expression.</li>
+<li>The result and its type.</li>
+<li>Its Boolean conversion.</li>
+<li>The conversion steps that explain the output.</li>
+<li>The safer production rule.</li>
+</ul>
+<p>Use the category filters to review primitives, coercion, truthiness, equality, and defaults. The comparison board also keeps the most important confusing pairs visible together.</p>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 08 JavaScript Values/index.html</code></li>
+<li><code>Study Code/Examples/Day 08 JavaScript Values/styles.css</code></li>
+<li><code>Study Code/Examples/Day 08 JavaScript Values/app.js</code></li>
+</ul>
+<p>The example evaluates only hard-coded lesson scenarios. It does not execute text entered by the user.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>Result</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Assuming form values are numbers</td>
+<td><code>&quot;2&quot; + &quot;3&quot;</code> becomes <code>&quot;23&quot;</code></td>
+<td>Convert and validate at the input boundary</td>
+</tr>
+<tr>
+<td>Using <code>typeof null</code> as the only null test</td>
+<td>Null is reported as object</td>
+<td>Check <code>value === null</code> first</td>
+</tr>
+<tr>
+<td>Testing arrays with <code>typeof</code></td>
+<td>Arrays are reported as objects</td>
+<td>Use <code>Array.isArray()</code></td>
+</tr>
+<tr>
+<td>Comparing separate object literals</td>
+<td>Matching structure still returns false</td>
+<td>Compare identity, IDs, or chosen fields</td>
+</tr>
+<tr>
+<td>Defaulting counts with logical OR</td>
+<td>Valid zero becomes the fallback</td>
+<td>Use <code>??</code> for nullish defaults</td>
+</tr>
+<tr>
+<td>Checking <code>value === NaN</code></td>
+<td>It always returns false</td>
+<td>Use <code>Number.isNaN(value)</code></td>
+</tr>
+<tr>
+<td>Using <code>==</code> casually</td>
+<td>Hidden conversion complicates results</td>
+<td>Prefer strict equality</td>
+</tr>
+<tr>
+<td>Assuming logical operators return Boolean</td>
+<td>UI receives an operand such as <code>0</code></td>
+<td>Convert explicitly when Boolean output is required</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> Explain JavaScript coercion, truthiness, and the difference between <code>==</code> and <code>===</code>.</p>
+<p><strong>Model answer:</strong></p>
+<p>JavaScript values have types, while variables can be rebound to values of different types. Coercion is conversion from one type to another; it can be explicit through <code>Number</code>, <code>String</code>, or <code>Boolean</code>, or implicit when an operator requests it. In a Boolean context, only the defined falsy values become false; objects, including empty arrays and objects, are truthy. Logical <code>&amp;&amp;</code> and <code>||</code> short-circuit and return operands rather than guaranteed Booleans. Loose equality performs type conversion before comparison, while strict equality does not, so I use <code>===</code> by default. I convert and validate external string inputs at their boundary, use <code>??</code> when zero, false, or an empty string are valid, use <code>Number.isNaN</code> for numeric conversion failure, and compare objects by identity or explicit fields rather than structure.</p>
+</section>
+<section class="content-card" id="quick-recall-sheet"><h2>Quick recall sheet</h2>
+<ul>
+<li>JavaScript has seven primitive types plus Object.</li>
+<li><code>typeof null</code> is <code>&quot;object&quot;</code>; arrays also need a separate check.</li>
+<li>Primitives are immutable; objects are reference values.</li>
+<li><code>const</code> prevents rebinding, not object mutation.</li>
+<li>Convert input strings explicitly before arithmetic.</li>
+<li><code>+</code> can add or concatenate; other arithmetic operators usually convert to numbers.</li>
+<li><code>NaN</code> has type number and is detected with <code>Number.isNaN()</code>.</li>
+<li>Empty arrays and objects are truthy.</li>
+<li><code>&amp;&amp;</code> and <code>||</code> return operands.</li>
+<li><code>??</code> defaults only <code>null</code> and <code>undefined</code>.</li>
+<li>Prefer <code>===</code>; object equality compares references.</li>
+<li><code>Object.is()</code> differs from <code>===</code> for <code>NaN</code> and signed zero.</li>
+</ul>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and inspecting every prepared scenario, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>JS-01</code> Types, values, coercion, and equality</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Data_structures">MDN: JavaScript data types and data structures</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Language_overview">MDN: JavaScript language overview</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness">MDN: Equality comparisons and sameness</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">MDN: Truthy values</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing">MDN: Nullish coalescing</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-08/index.html" title="Day 8 interactive JavaScript Value Lab"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-07.html"><small>Previous lesson</small><strong>← Day 7</strong></a>
+                <a href="index.html"><small>Course</small><strong>Dashboard →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-variables-do-not-have-fixed-types-values-do">Variables do not have fixed types; values do</a></li><li><a href="#2-the-eight-javascript-types">The eight JavaScript types</a></li><li><a href="#3-primitives-versus-objects">Primitives versus objects</a></li><li><a href="#4-reference-equality">Reference equality</a></li><li><a href="#5-use-typeof-carefully">Use typeof carefully</a></li><li><a href="#6-explicit-conversion-communicates-intent">Explicit conversion communicates intent</a></li><li><a href="#7-implicit-coercion-and-the-plus-operator">Implicit coercion and the plus operator</a></li><li><a href="#8-nan-is-a-number-value-representing-failure">NaN is a number value representing failure</a></li><li><a href="#9-truthy-and-falsy-values">Truthy and falsy values</a></li><li><a href="#10-logical-operators-return-operands">Logical operators return operands</a></li><li><a href="#11-falsy-is-broader-than-nullish">Falsy is broader than nullish</a></li><li><a href="#12-strict-equality-is-the-default">Strict equality is the default</a></li><li><a href="#13-object-is-and-special-numeric-cases">Object.is and special numeric cases</a></li><li><a href="#14-null-and-undefined">Null and undefined</a></li><li><a href="#15-a-safe-input-boundary-pattern">A safe input-boundary pattern</a></li><li><a href="#16-predict-code-in-three-steps">Predict code in three steps</a></li><li><a href="#17-inspect-the-finished-value-lab">Inspect the finished Value Lab</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#quick-recall-sheet">Quick recall sheet</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

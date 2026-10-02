@@ -48,6 +48,13 @@ const courseDays = [
     description: "Layers, z-index, and Week 1 recap",
     href: "day-07.html",
   },
+  {
+    id: "day-08",
+    number: "08",
+    title: "JavaScript Values",
+    description: "Types, coercion, truthiness, and equality",
+    href: "day-08.html",
+  },
 ];
 
 const storageKey = "frontend-study-progress-v1";

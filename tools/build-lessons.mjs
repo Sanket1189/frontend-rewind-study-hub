@@ -96,6 +96,19 @@ const lessons = [
     example: "examples/day-07/index.html",
     exampleTitle: "Day 7 Week 1 operations board",
     previous: { href: "day-06.html", label: "Day 6", eyebrow: "Previous lesson" },
+    next: { href: "day-08.html", label: "Day 8", eyebrow: "Next lesson" },
+  },
+  {
+    dayId: "day-08",
+    dayNumber: "08",
+    source: "Study Code/Lessons/Day 08 - JavaScript Types Coercion Truthiness and Equality.md",
+    output: "day-08.html",
+    description:
+      "Build a reliable mental model for JavaScript values, conversion, truthiness, equality, and safe defaults.",
+    topics: ["JS-01"],
+    example: "examples/day-08/index.html",
+    exampleTitle: "Day 8 interactive JavaScript Value Lab",
+    previous: { href: "day-07.html", label: "Day 7", eyebrow: "Previous lesson" },
     next: { href: "index.html", label: "Dashboard", eyebrow: "Course" },
   },
 ];

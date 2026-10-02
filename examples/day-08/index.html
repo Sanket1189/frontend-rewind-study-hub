@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="An interactive JavaScript value inspector for types, coercion, truthiness, and equality." />
+    <title>JavaScript Value Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to Value Lab</a>
+    <header class="topbar"><a href="#main-content"><span aria-hidden="true">JS</span><strong>Value Lab</strong></a><small>Day 08 · JavaScript foundations</small></header>
+    <main id="main-content">
+      <header class="hero"><div><p class="eyebrow">Prepared interactive reference</p><h1>See what JavaScript actually does.</h1><p>Choose a scenario. The lab gives you the output, type, Boolean conversion, reasoning steps, and production-safe rule.</p></div><div class="hero-token"><code>value → type → rule</code></div></header>
+
+      <section class="filter-bar" aria-labelledby="filter-title">
+        <div><p class="eyebrow">Scenario library</p><h2 id="filter-title">Choose a concept</h2></div>
+        <div class="filters" role="group" aria-label="Filter scenarios">
+          <button class="is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="types" aria-pressed="false">Types</button>
+          <button type="button" data-filter="coercion" aria-pressed="false">Coercion</button>
+          <button type="button" data-filter="truthiness" aria-pressed="false">Truthiness</button>
+          <button type="button" data-filter="equality" aria-pressed="false">Equality</button>
+          <button type="button" data-filter="defaults" aria-pressed="false">Defaults</button>
+        </div>
+      </section>
+
+      <div class="lab-layout">
+        <section class="scenario-panel" aria-labelledby="scenario-title"><h2 id="scenario-title" class="visually-hidden">Prepared scenarios</h2><div id="scenario-list" class="scenario-list"></div></section>
+        <section class="result-panel" aria-live="polite" aria-labelledby="result-title">
+          <div class="result-heading"><div><p id="result-category" class="eyebrow"></p><h2 id="result-title"></h2></div><span id="result-index"></span></div>
+          <pre><code id="result-expression"></code></pre>
+          <div class="result-grid"><article><span>Result</span><strong id="result-value"></strong></article><article><span>Type</span><strong id="result-type"></strong></article><article><span>Boolean</span><strong id="result-boolean"></strong></article></div>
+          <div class="explanation"><h3>Why this happens</h3><ol id="result-steps"></ol></div>
+          <div class="safe-rule"><span aria-hidden="true">✓</span><div><strong>Production rule</strong><p id="result-rule"></p></div></div>
+        </section>
+      </div>
+
+      <section class="comparison" aria-labelledby="comparison-title"><div><p class="eyebrow">Keep these distinctions</p><h2 id="comparison-title">The four comparisons that prevent bugs</h2></div><div class="comparison-grid"><article><code>0 || 5 → 5</code><p>All falsy values trigger the fallback.</p></article><article><code>0 ?? 5 → 0</code><p>Only nullish values trigger the fallback.</p></article><article><code>"3" == 3 → true</code><p>Loose equality converts before comparing.</p></article><article><code>"3" === 3 → false</code><p>Strict equality preserves the type boundary.</p></article></div></section>
+    </main>
+  </body>
+</html>
+

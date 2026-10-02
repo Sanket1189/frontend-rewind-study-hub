@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A mobile-first responsive operations console." />
+    <title>Responsive Operations Console</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to dashboard</a>
+    <div class="app-shell">
+      <header class="app-bar"><a class="brand" href="#"><span aria-hidden="true">FO</span><strong>Frontend Ops</strong></a><button type="button" aria-label="Open navigation">Menu</button></header>
+      <aside class="nav-rail" aria-label="Workspace navigation"><a class="brand" href="#"><span aria-hidden="true">FO</span><strong>Frontend Ops</strong></a><nav aria-label="Primary"><a class="is-current" href="#main-content"><b aria-hidden="true">O</b><span>Overview</span></a><a href="#roles"><b aria-hidden="true">R</b><span>Roles</span></a><a href="#activity"><b aria-hidden="true">A</b><span>Activity</span></a></nav><small>Day 05 · Responsive UI</small></aside>
+      <main id="main-content">
+        <header class="page-heading"><div><p class="eyebrow">Mobile · Tablet · Desktop</p><h1>Operations overview</h1><p>One source order, three useful layout modes.</p></div><button type="button">Export</button></header>
+        <section class="metric-grid" aria-label="Summary metrics"><article><span>Applications</span><strong>18</strong><small>+4 this week</small></article><article><span>Responses</span><strong>7</strong><small>39% response rate</small></article><article><span>Interviews</span><strong>3</strong><small>2 scheduled</small></article><article><span>Study streak</span><strong>5d</strong><small>Week 1 active</small></article></section>
+        <div class="content-grid">
+          <section class="panel roles-panel" id="roles" aria-labelledby="roles-title"><div class="panel-heading"><div><p class="eyebrow">Container-aware cards</p><h2 id="roles-title">Priority roles</h2></div><span>3 active</span></div><div class="role-list"><div class="role-card-host"><article class="role-card"><div><span class="status">Interview</span><h3>Frontend Engineer</h3><p>Product Studio · Remote · React</p></div><button type="button">View role</button></article></div><div class="role-card-host"><article class="role-card"><div><span class="status status--blue">Applied</span><h3>UI Developer</h3><p>Fintech Labs · Pune · TypeScript</p></div><button type="button">View role</button></article></div></div></section>
+          <aside class="panel focus-panel" aria-labelledby="focus-title"><p class="eyebrow">Today</p><h2 id="focus-title">Study focus</h2><p>Responsive design, media queries, container queries, and the three-size review.</p><a href="#activity">Review activity</a></aside>
+        </div>
+        <section class="panel activity-panel" id="activity" aria-labelledby="activity-title"><div class="panel-heading"><div><p class="eyebrow">Intentional overflow</p><h2 id="activity-title">Application activity</h2></div><span>Updated today</span></div><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable application activity table"><table><thead><tr><th>Company</th><th>Role</th><th>Status</th><th>Next step</th></tr></thead><tbody><tr><td>Product Studio</td><td>Frontend Engineer</td><td>Interview</td><td>Technical round</td></tr><tr><td>Fintech Labs</td><td>UI Developer</td><td>Applied</td><td>Follow up Friday</td></tr><tr><td>Commerce Cloud</td><td>React Developer</td><td>Saved</td><td>Tailor resume</td></tr></tbody></table></div></section>
+      </main>
+    </div>
+  </body>
+</html>

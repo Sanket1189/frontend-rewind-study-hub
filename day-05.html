@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Build responsive systems with fluid foundations, content breakpoints, media queries, and container queries." />
+    <title>Day 5 · Responsive Design, Media Queries, and Container Queries</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-05">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 05</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 05 · About 60 minutes</p>
+              <h1>Responsive Design, Media Queries, and Container Queries</h1>
+              <p class="lesson-lead">Build responsive systems with fluid foundations, content breakpoints, media queries, and container queries.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-05/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">CSS-08</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Understand responsive design as a content strategy, not a collection of phone breakpoints. You will inspect one finished Operations Console at mobile, tablet, and desktop sizes and learn fluid foundations, mobile-first media queries, container queries, responsive media, accessibility checks, and a practical test matrix.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-30 minutes: read the responsive-design lesson.</li>
+<li>30-48 minutes: inspect the finished page at the three supplied sizes.</li>
+<li>48-55 minutes: read the testing matrix and common mistakes.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>CSS-08</code>.</li>
+</ul>
+</section>
+<section class="content-card" id="1-responsive-design-is-adaptation"><h2>1. Responsive design is adaptation</h2>
+<p>A responsive interface adapts to the available space, content, user preferences, and input method. It should remain readable and operable when the viewport narrows, text grows, controls wrap, or the component is reused in a different parent.</p>
+<p>Responsive design begins with flexible normal flow, relative sizing, Flexbox or Grid, wrapping, and intrinsic constraints. Media queries are conditional refinements, not the entire solution.</p>
+</section>
+<section class="content-card" id="2-the-viewport-requirement"><h2>2. The viewport requirement</h2>
+<p>Mobile browsers need the viewport metadata to use the device width as the layout viewport:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;</code></div>
+<p>Without it, a narrow device may render a wider virtual layout and scale it down, making a responsive page appear tiny.</p>
+</section>
+<section class="content-card" id="3-start-with-resilient-foundations"><h2>3. Start with resilient foundations</h2>
+<p>Use content-driven sizes before breakpoints:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="css">.page {
+  width: min(72rem, 100% - 2rem);
+  margin-inline: auto;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}</code></div>
+<p><code>min()</code> caps the page while retaining side space. Media never exceeds its container. <code>clamp()</code> provides a lower bound, a fluid preference, and an upper bound.</p>
+</section>
+<section class="content-card" id="4-mobile-first-css"><h2>4. Mobile-first CSS</h2>
+<p>Write the simplest narrow layout as the base, then enhance when space becomes available:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="css">.workspace {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (width &gt;= 48rem) {
+  .workspace {
+    grid-template-columns: 14rem minmax(0, 1fr);
+  }
+}</code></div>
+<p>Mobile-first styles often produce less overriding because normal flow already creates a useful single column. They do not mean designing only for phones; they mean treating the smallest usable layout as the baseline.</p>
+</section>
+<section class="content-card" id="5-choose-breakpoints-from-content"><h2>5. Choose breakpoints from content</h2>
+<p>Do not begin with a list of device brands. Resize the interface until the content becomes cramped, controls wrap badly, or line lengths become uncomfortable. Add a breakpoint slightly before that failure.</p>
+<p>Use relative units such as <code>rem</code> for layout breakpoints so the design responds more naturally when the user's default font size changes.</p>
+<p>The example uses two content-driven transitions:</p>
+<ul>
+<li>Base: compact mobile layout.</li>
+<li><code>48rem</code> and wider: tablet navigation plus multi-column content.</li>
+<li><code>72rem</code> and wider: full desktop navigation rail and wider dashboard composition.</li>
+</ul>
+</section>
+<section class="content-card" id="6-media-query-syntax"><h2>6. Media query syntax</h2>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="css">@media (width &gt;= 48rem) {
+  /* styles for enough viewport width */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* remove nonessential motion */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* enhancements for accurate pointing devices */
+}</code></div>
+<p>Width is common, but media queries can also respond to user preferences and device capabilities. Never make important information available only on hover.</p>
+</section>
+<section class="content-card" id="7-layout-modes-at-three-sizes"><h2>7. Layout modes at three sizes</h2>
+<p>The finished example preserves one semantic order while its presentation changes:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Size</th>
+<th>Layout behavior</th>
+</tr></thead><tbody>
+<tr>
+<td>Mobile</td>
+<td>top app bar, one column, horizontally scrollable table region</td>
+</tr>
+<tr>
+<td>Tablet</td>
+<td>compact navigation rail, two-column metrics where space permits</td>
+</tr>
+<tr>
+<td>Desktop</td>
+<td>full navigation rail, four metrics, wide activity plus focus panel</td>
+</tr>
+</tbody></table></div>
+<p>The page does not hide core content at smaller widths. It changes density and navigation presentation while preserving access.</p>
+</section>
+<section class="content-card" id="8-responsive-grid-without-queries"><h2>8. Responsive Grid without queries</h2>
+<p>Some regions adapt automatically:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="css">.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 1rem;
+}</code></div>
+<p>This is a responsive pattern without a media query. Queries are reserved for deliberate mode changes that intrinsic sizing cannot express clearly.</p>
+</section>
+<section class="content-card" id="9-component-responsiveness-with-container-queries"><h2>9. Component responsiveness with container queries</h2>
+<p>Media queries know the viewport. Reusable components often need to know their own available space.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="css">.role-card-host {
+  container: role-card / inline-size;
+}
+
+.role-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@container role-card (width &gt;= 30rem) {
+  .role-card {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}</code></div>
+<p>The containment context belongs to an ancestor; the query styles its descendants. <code>inline-size</code> is normally the useful size query because components chiefly adapt to available inline width.</p>
+</section>
+<section class="content-card" id="10-media-versus-container-queries"><h2>10. Media versus container queries</h2>
+<p>Use a media query for page-level changes based on the viewport: opening a navigation rail, changing the main page shell, or respecting a preference. Use a container query when a component should adapt based on the space provided by its parent regardless of viewport size.</p>
+<p>A dashboard can use both: media queries establish the shell, while each reusable role card adapts inside a wide main panel or narrow sidebar.</p>
+</section>
+<section class="content-card" id="11-tables-and-dense-data"><h2>11. Tables and dense data</h2>
+<p>Do not squeeze a data table until its columns become unreadable. Keep semantic table markup and provide a labelled scroll region:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-7">Copy</button><code id="lesson-code-7" data-language="css">.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  min-width: 42rem;
+}</code></div>
+<p>Keyboard users must be able to reach and scroll an intentionally constrained region when necessary. For some products, a different mobile summary view may be justified, but do not change tabular relationships casually.</p>
+</section>
+<section class="content-card" id="12-images-icons-and-aspect-ratios"><h2>12. Images, icons, and aspect ratios</h2>
+<p>Use responsive images when content images have multiple useful source sizes. Reserve image space with explicit dimensions or <code>aspect-ratio</code> to reduce layout movement. Use SVG or CSS for simple interface icons when appropriate, and always supply meaningful alternative text for informative images.</p>
+<p>Background decoration does not need alternative text. An icon-only button does need an accessible name.</p>
+</section>
+<section class="content-card" id="13-typography-and-readable-measure"><h2>13. Typography and readable measure</h2>
+<p>Fluid type should have limits. Unbounded viewport units can become tiny or enormous.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-8">Copy</button><code id="lesson-code-8" data-language="css">h1 {
+  font-size: clamp(2rem, 1.4rem + 3vw, 4.5rem);
+}
+
+.prose {
+  max-width: 68ch;
+}</code></div>
+<p>Test browser zoom and enlarged text. A responsive design that only works at the default font size is not robust.</p>
+</section>
+<section class="content-card" id="14-avoid-accidental-horizontal-overflow"><h2>14. Avoid accidental horizontal overflow</h2>
+<p>Common causes include fixed widths, long unbroken strings, <code>100vw</code> inside a page with a scrollbar, wide tables without a wrapper, and Grid/Flex items that retain content-based minimum sizes.</p>
+<p>Debug the element causing overflow instead of hiding the symptom with <code>overflow-x: hidden</code> on the page. Useful local fixes include <code>max-width: 100%</code>, <code>min-width: 0</code>, <code>overflow-wrap: anywhere</code>, and a deliberate scroll container.</p>
+</section>
+<section class="content-card" id="15-input-and-accessibility-considerations"><h2>15. Input and accessibility considerations</h2>
+<ul>
+<li>Keep controls large enough to operate comfortably.</li>
+<li>Do not rely on hover for essential actions.</li>
+<li>Keep visible focus indicators at every layout size.</li>
+<li>Preserve logical source, reading, and focus order.</li>
+<li>Reflow at narrow widths and 200% zoom without losing content or functionality.</li>
+<li>Respect <code>prefers-reduced-motion</code> for nonessential animation.</li>
+<li>Test with keyboard only and with longer labels.</li>
+</ul>
+<p>Responsive design includes people, not just screens.</p>
+</section>
+<section class="content-card" id="16-practical-three-size-test-matrix"><h2>16. Practical three-size test matrix</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Check</th>
+<th>Mobile 390px</th>
+<th>Tablet 768px</th>
+<th>Desktop 1280px</th>
+</tr></thead><tbody>
+<tr>
+<td>Navigation</td>
+<td>compact top bar</td>
+<td>compact rail</td>
+<td>full labelled rail</td>
+</tr>
+<tr>
+<td>Main layout</td>
+<td>one column</td>
+<td>rail plus content</td>
+<td>wide rail plus content</td>
+</tr>
+<tr>
+<td>Metric cards</td>
+<td>one/two as space permits</td>
+<td>two/three</td>
+<td>four</td>
+</tr>
+<tr>
+<td>Role card</td>
+<td>stacked</td>
+<td>depends on container</td>
+<td>inline details/actions</td>
+</tr>
+<tr>
+<td>Activity data</td>
+<td>intentional local scroll</td>
+<td>wider visible area</td>
+<td>full table</td>
+</tr>
+<tr>
+<td>Keyboard focus</td>
+<td>visible</td>
+<td>visible</td>
+<td>visible</td>
+</tr>
+<tr>
+<td>Page overflow</td>
+<td>none</td>
+<td>none</td>
+<td>none</td>
+</tr>
+</tbody></table></div>
+<p>Also drag slowly between these widths. Breakpoints are not the only widths users have.</p>
+</section>
+<section class="content-card" id="17-debugging-responsive-layouts"><h2>17. Debugging responsive layouts</h2>
+<ol>
+<li>Reproduce the first width where content fails.</li>
+<li>Find the exact overflowing or cramped element.</li>
+<li>Inspect fixed sizes, minimum sizes, long content, and track definitions.</li>
+<li>Decide whether intrinsic sizing can solve it without a query.</li>
+<li>If the page mode must change, add a media query at the content breakpoint.</li>
+<li>If only a reusable component must change, use a container query.</li>
+<li>Re-test narrower and wider widths, zoom, long content, keyboard focus, and reduced motion.</li>
+</ol>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 05 Responsive Design/index.html</code></li>
+<li><code>Study Code/Examples/Day 05 Responsive Design/styles.css</code></li>
+</ul>
+<p>It is the Operations Console rendered as one coherent application at mobile, tablet, and desktop sizes. It combines intrinsic Grid, two mobile-first media queries, a role-card container query, and an intentional table scroll region.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>Result</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Copying device-specific breakpoints</td>
+<td>Styles become obsolete and brittle</td>
+<td>Choose breakpoints where content fails</td>
+</tr>
+<tr>
+<td>Desktop-first overrides everywhere</td>
+<td>Narrow styles fight wide assumptions</td>
+<td>Start with the simple single-column baseline</td>
+</tr>
+<tr>
+<td>Treating media queries as all of responsiveness</td>
+<td>Too many conditional rules</td>
+<td>Use flow, flexible sizing, wrapping, and Grid first</td>
+</tr>
+<tr>
+<td>Using viewport queries for every component</td>
+<td>Reusable components depend on page location</td>
+<td>Use container queries for component space</td>
+</tr>
+<tr>
+<td>Hiding overflow on the page</td>
+<td>Content is clipped and the cause remains</td>
+<td>Find and fix the responsible child</td>
+</tr>
+<tr>
+<td>Shrinking tables into unreadable columns</td>
+<td>Data relationships become hard to use</td>
+<td>Add a labelled local scroll region</td>
+</tr>
+<tr>
+<td>Hiding essential mobile content</td>
+<td>Mobile users receive an incomplete product</td>
+<td>Change presentation, not access</td>
+</tr>
+<tr>
+<td>Testing only three exact screenshots</td>
+<td>Failures between breakpoints survive</td>
+<td>Resize continuously and test long content/zoom</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> How do you build and test a responsive interface, and when do you use media queries versus container queries?</p>
+<p><strong>Model answer:</strong></p>
+<p>I start with semantic source order and a narrow single-column layout that works in normal flow. Then I add fluid constraints such as <code>min()</code>, <code>max-width</code>, <code>clamp()</code>, Flexbox wrapping, and <code>auto-fit</code> Grid tracks. I introduce media-query breakpoints where the content needs a page-level mode change, not at widths copied from specific devices. I use container queries when a reusable component must adapt to the width provided by its parent. I test continuously while resizing, plus representative mobile, tablet, and desktop widths. I check zoom, enlarged or long text, keyboard focus, touch-sized controls, reduced motion, intentional data overflow, and unexpected horizontal page scrolling. The goal is preserved content and usability, not matching three static screenshots.</p>
+</section>
+<section class="content-card" id="quick-recall-sheet"><h2>Quick recall sheet</h2>
+<ul>
+<li>Start with flexible normal flow and intrinsic sizing.</li>
+<li>Include the viewport meta element.</li>
+<li>Mobile-first means the narrow usable mode is the baseline.</li>
+<li>Choose breakpoints from content failures.</li>
+<li>Media queries respond to viewport, environment, and preferences.</li>
+<li>Container queries respond to component context.</li>
+<li><code>auto-fit</code> Grid can be responsive without breakpoints.</li>
+<li>Make wide data regions intentionally scrollable.</li>
+<li>Test between breakpoints, at zoom, and with long content.</li>
+<li>Never hide overflow without diagnosing its cause.</li>
+</ul>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and three-size walkthrough, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>CSS-08</code> Responsive design, media queries, and container queries</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design">MDN: Responsive web design</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Media_queries">MDN: Media query fundamentals</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_queries">MDN: CSS container queries</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/container-type">MDN: container-type</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-05/index.html" title="Day 5 responsive operations console"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-04.html"><small>Previous lesson</small><strong>← Day 4</strong></a>
+                <a href="index.html"><small>Course</small><strong>Dashboard →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-responsive-design-is-adaptation">Responsive design is adaptation</a></li><li><a href="#2-the-viewport-requirement">The viewport requirement</a></li><li><a href="#3-start-with-resilient-foundations">Start with resilient foundations</a></li><li><a href="#4-mobile-first-css">Mobile-first CSS</a></li><li><a href="#5-choose-breakpoints-from-content">Choose breakpoints from content</a></li><li><a href="#6-media-query-syntax">Media query syntax</a></li><li><a href="#7-layout-modes-at-three-sizes">Layout modes at three sizes</a></li><li><a href="#8-responsive-grid-without-queries">Responsive Grid without queries</a></li><li><a href="#9-component-responsiveness-with-container-queries">Component responsiveness with container queries</a></li><li><a href="#10-media-versus-container-queries">Media versus container queries</a></li><li><a href="#11-tables-and-dense-data">Tables and dense data</a></li><li><a href="#12-images-icons-and-aspect-ratios">Images, icons, and aspect ratios</a></li><li><a href="#13-typography-and-readable-measure">Typography and readable measure</a></li><li><a href="#14-avoid-accidental-horizontal-overflow">Avoid accidental horizontal overflow</a></li><li><a href="#15-input-and-accessibility-considerations">Input and accessibility considerations</a></li><li><a href="#16-practical-three-size-test-matrix">Practical three-size test matrix</a></li><li><a href="#17-debugging-responsive-layouts">Debugging responsive layouts</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#quick-recall-sheet">Quick recall sheet</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

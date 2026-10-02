@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Learn Grid tracks, placement, auto-fit layouts, content sizing, accessibility, and dashboard patterns." />
+    <title>Day 4 · CSS Grid Layout</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-04">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 04</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 04 · About 60 minutes</p>
+              <h1>CSS Grid Layout</h1>
+              <p class="lesson-lead">Learn Grid tracks, placement, auto-fit layouts, content sizing, accessibility, and dashboard patterns.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-04/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">CSS-06</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Understand CSS Grid as a two-dimensional layout system. You will learn tracks, lines, cells, areas, explicit and implicit grids, flexible track sizing, auto-placement, and the accessibility implications of visual placement. You only need to read and inspect the finished operations dashboard.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-35 minutes: read the prepared Grid lesson.</li>
+<li>35-50 minutes: inspect the supplied dashboard and CSS walkthrough.</li>
+<li>50-55 minutes: review the debugging checklist and common mistakes.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>CSS-06</code>.</li>
+</ul>
+</section>
+<section class="content-card" id="1-when-grid-is-the-right-tool"><h2>1. When Grid is the right tool</h2>
+<p>CSS Grid controls rows and columns together. Choose it when multiple items must share two-dimensional tracks: dashboards, page shells, image galleries, pricing comparisons, or forms with aligned labels and fields.</p>
+<p>Flexbox is strongest when the main question is how items relate along one row or column. Grid is strongest when the placement or alignment of both dimensions matters. They are complementary: the finished dashboard uses Grid for the page and card layout, then Flexbox inside small action groups.</p>
+</section>
+<section class="content-card" id="2-grid-container-and-grid-items"><h2>2. Grid container and grid items</h2>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="css">.dashboard {
+  display: grid;
+}</code></div>
+<p>The direct children become grid items. Descendants do not participate in that grid unless they create their own layout or use a supported <code>subgrid</code> relationship.</p>
+<p>Grid does not replace semantic HTML. The grid container can be <code>main</code>, <code>section</code>, <code>ul</code>, or any suitable element. Choose markup for meaning, then apply layout.</p>
+</section>
+<section class="content-card" id="3-tracks-lines-cells-and-areas"><h2>3. Tracks, lines, cells, and areas</h2>
+<ul>
+<li>A <strong>track</strong> is one row or column.</li>
+<li>A <strong>grid line</strong> is a boundary between tracks, numbered from 1.</li>
+<li>A <strong>cell</strong> is one row-and-column intersection.</li>
+<li>A <strong>grid area</strong> is a rectangular group of one or more cells.</li>
+<li>A <strong>gap</strong> is the gutter between tracks.</li>
+</ul>
+<p>Grid placement refers to lines, not track numbers. <code>grid-column: 1 / 3</code> starts at line 1 and ends at line 3, spanning two column tracks.</p>
+</section>
+<section class="content-card" id="4-defining-columns-and-rows"><h2>4. Defining columns and rows</h2>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="css">.dashboard {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  gap: 1rem;
+}</code></div>
+<p>The first column is 15rem. The second receives the remaining space but can shrink to zero because of <code>minmax(0, 1fr)</code>. A plain <code>1fr</code> has an automatic minimum that can be influenced by long content, so <code>minmax(0, 1fr)</code> is a useful resilient pattern.</p>
+<p>Rows can be explicit too:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="css">.dashboard {
+  grid-template-rows: auto 1fr auto;
+}</code></div>
+<p>Use explicit tracks for the structure you intentionally design. Let content create additional implicit tracks when the number of items is dynamic.</p>
+</section>
+<section class="content-card" id="5-understanding-the-fr-unit"><h2>5. Understanding the fr unit</h2>
+<p><code>fr</code> represents a fraction of available space after fixed sizes, intrinsic contributions, and gaps are considered.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="css">grid-template-columns: 1fr 2fr;</code></div>
+<p>The second track receives twice the distributable free space of the first; this does not guarantee that its final rendered width is exactly double in every content situation. Content-based minimum sizes can affect the result.</p>
+</section>
+<section class="content-card" id="6-repeat-minmax-auto-fit-and-auto-fill"><h2>6. repeat, minmax, auto-fit, and auto-fill</h2>
+<p>A common responsive card pattern is:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="css">.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: 1rem;
+}</code></div>
+<p><code>repeat()</code> avoids repeating track definitions. <code>minmax()</code> supplies a minimum and maximum. <code>auto-fit</code> creates as many tracks as fit and collapses unused empty tracks, allowing existing items to stretch. <code>auto-fill</code> keeps the empty track slots, which can be useful when the track structure itself should remain visible.</p>
+<p>The <code>min(100%, 13rem)</code> minimum prevents a 13rem track from overflowing a container narrower than 13rem.</p>
+</section>
+<section class="content-card" id="7-explicit-and-implicit-grids"><h2>7. Explicit and implicit grids</h2>
+<p>Tracks declared with <code>grid-template-columns</code> and <code>grid-template-rows</code> form the explicit grid. When content needs extra rows or columns, the browser creates implicit tracks.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="css">.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(8rem, auto);
+}</code></div>
+<p><code>grid-auto-rows</code> sizes rows created by auto-placement. Allowing <code>auto</code> as the maximum lets a row grow when content is taller. Avoid fixed row heights for text-heavy content.</p>
+</section>
+<section class="content-card" id="8-auto-placement"><h2>8. Auto-placement</h2>
+<p>Grid places unpositioned items in source order using its auto-placement algorithm. This is ideal for dynamic card collections because new items can enter the next available cell without manual coordinates.</p>
+<p><code>grid-auto-flow: row</code> is the default. The <code>dense</code> keyword may backfill holes, but it can create a visual order that differs from source and keyboard order. Avoid dense packing when sequence matters.</p>
+</section>
+<section class="content-card" id="9-placing-items-with-lines"><h2>9. Placing items with lines</h2>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-7">Copy</button><code id="lesson-code-7" data-language="css">.activity-panel {
+  grid-column: 1 / -1;
+}</code></div>
+<p><code>-1</code> refers to the final explicit grid line, so the panel spans the whole explicit grid. You can also use <code>span</code>:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-8">Copy</button><code id="lesson-code-8" data-language="css">.featured-card {
+  grid-column: span 2;
+}</code></div>
+<p>Use explicit placement for deliberate exceptions. Let auto-placement handle ordinary repeated content.</p>
+</section>
+<section class="content-card" id="10-named-lines-and-grid-areas"><h2>10. Named lines and grid areas</h2>
+<p>Named areas make a stable page shell readable:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-9">Copy</button><code id="lesson-code-9" data-language="css">.page-shell {
+  display: grid;
+  grid-template-areas:
+    &quot;header header&quot;
+    &quot;sidebar main&quot;;
+  grid-template-columns: 15rem minmax(0, 1fr);
+}
+
+.page-header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }</code></div>
+<p>Every row in a template must have the same number of cells, and each named area must form a rectangle. Use line-based placement when it is more concise; use named areas when they make a larger layout easier to discuss.</p>
+</section>
+<section class="content-card" id="11-alignment-in-grid"><h2>11. Alignment in Grid</h2>
+<p>Grid uses the box-alignment properties:</p>
+<ul>
+<li><code>justify-items</code>: aligns items inside cells on the inline axis.</li>
+<li><code>align-items</code>: aligns items inside cells on the block axis.</li>
+<li><code>place-items</code>: shorthand for align and justify items.</li>
+<li><code>justify-content</code> and <code>align-content</code>: align the entire grid when the grid is smaller than its container.</li>
+<li><code>justify-self</code>, <code>align-self</code>, and <code>place-self</code>: override one item.</li>
+</ul>
+<p>Most dashboard cards should stretch to fill their cells, which is already the default. Use alignment intentionally rather than centering everything.</p>
+</section>
+<section class="content-card" id="12-content-sizing-and-overflow"><h2>12. Content sizing and overflow</h2>
+<p>Grid items can have content-based minimum sizes. Long strings may widen a track or overflow it. Common fixes include:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-10">Copy</button><code id="lesson-code-10" data-language="css">.grid-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}</code></div>
+<p>At the track level, <code>minmax(0, 1fr)</code> permits a flexible track to shrink below its min-content contribution. First identify whether the track or the item is enforcing the minimum, then fix the correct layer.</p>
+</section>
+<section class="content-card" id="13-grid-areas-and-accessibility"><h2>13. Grid areas and accessibility</h2>
+<p>Visual Grid placement does not change DOM order. Keyboard focus and assistive technology reading order normally follow the source. Keep the HTML in a logical sequence and avoid using placement to create a meaningfully different visual story.</p>
+<p>Do not use empty semantic elements as layout spacers. Grid gaps and empty area tokens (<code>.</code>) provide visual spacing without polluting the document.</p>
+</section>
+<section class="content-card" id="14-the-supplied-dashboard"><h2>14. The supplied dashboard</h2>
+<p>The example demonstrates three Grid levels:</p>
+<ol>
+<li><code>.dashboard-shell</code> creates navigation plus main content.</li>
+<li><code>.metric-grid</code> automatically fits summary cards.</li>
+<li><code>.content-grid</code> creates a wide activity panel and a narrower focus panel.</li>
+</ol>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-11">Copy</button><code id="lesson-code-11" data-language="css">.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(15rem, 1fr);
+  gap: 1rem;
+}</code></div>
+<p>The <code>minmax()</code> values protect both tracks from content overflow. Day 5 will make this structure adapt across viewport and component sizes.</p>
+</section>
+<section class="content-card" id="15-debugging-grid-in-devtools"><h2>15. Debugging Grid in DevTools</h2>
+<ol>
+<li>Confirm the correct parent has <code>display: grid</code>.</li>
+<li>Identify its direct grid items.</li>
+<li>Turn on the Grid overlay to view line numbers, areas, and gaps.</li>
+<li>Separate the explicit tracks from automatically created implicit tracks.</li>
+<li>Inspect the computed track sizes and content-based minimums.</li>
+<li>Check whether an item was explicitly placed or auto-placed.</li>
+<li>Look for long content forcing a track wider.</li>
+<li>Verify source order remains logical without CSS.</li>
+<li>Resize through content failure points.</li>
+</ol>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 04 CSS Grid/index.html</code></li>
+<li><code>Study Code/Examples/Day 04 CSS Grid/styles.css</code></li>
+</ul>
+<p>The finished Operations Console includes a navigation rail, auto-fitting metric cards, a two-track content region, and automatically placed activity items.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>Result</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Using Grid for a simple button row</td>
+<td>More machinery than the problem needs</td>
+<td>Use Flexbox for one dimension</td>
+</tr>
+<tr>
+<td>Treating line numbers as column numbers</td>
+<td>Items span the wrong tracks</td>
+<td>Remember that placement uses boundaries</td>
+</tr>
+<tr>
+<td>Using fixed card columns</td>
+<td>Layout overflows or leaves wasted space</td>
+<td>Use <code>repeat()</code>, <code>minmax()</code>, and <code>auto-fit</code></td>
+</tr>
+<tr>
+<td>Using <code>1fr</code> with long content</td>
+<td>A track refuses to shrink</td>
+<td>Try <code>minmax(0, 1fr)</code> and <code>min-width: 0</code></td>
+</tr>
+<tr>
+<td>Fixing row height for text</td>
+<td>Content clips or overlaps</td>
+<td>Use <code>minmax(minimum, auto)</code></td>
+</tr>
+<tr>
+<td>Positioning every dynamic card</td>
+<td>New content requires new coordinates</td>
+<td>Let auto-placement work</td>
+</tr>
+<tr>
+<td>Using dense placement for ordered content</td>
+<td>Visual and reading order can disagree</td>
+<td>Preserve source-order placement</td>
+</tr>
+<tr>
+<td>Reordering meaningful regions only with CSS</td>
+<td>Accessibility and visual order diverge</td>
+<td>Keep the DOM sequence logical</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> When would you choose CSS Grid over Flexbox, and how would you build a responsive card dashboard?</p>
+<p><strong>Model answer:</strong></p>
+<p>I choose Grid when rows and columns need to work together or when several items should share the same tracks. Flexbox is usually better for one row or column, such as actions inside a card. For a responsive dashboard I often use <code>repeat(auto-fit, minmax(min(100%, 14rem), 1fr))</code>, which creates as many usable columns as fit without device-specific breakpoints. I use <code>gap</code> for gutters and let auto-placement handle dynamic cards. For fixed page regions I may use named areas or line placement. I watch content-based minimum sizes: <code>minmax(0, 1fr)</code> on tracks and <code>min-width: 0</code> on children can prevent long content from forcing overflow. I keep DOM order logical because Grid placement changes presentation, not keyboard or screen-reader order.</p>
+</section>
+<section class="content-card" id="quick-recall-sheet"><h2>Quick recall sheet</h2>
+<ul>
+<li>Grid controls rows and columns together.</li>
+<li>Direct children are grid items.</li>
+<li>Tracks sit between grid lines.</li>
+<li><code>fr</code> shares available space.</li>
+<li><code>repeat()</code> removes repeated definitions.</li>
+<li><code>minmax()</code> creates resilient track limits.</li>
+<li><code>auto-fit</code> collapses unused tracks; <code>auto-fill</code> retains their slots.</li>
+<li>Auto-placement handles dynamic collections.</li>
+<li><code>minmax(0, 1fr)</code> helps flexible tracks shrink.</li>
+<li>Keep DOM and meaningful visual order aligned.</li>
+</ul>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and walkthrough, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>CSS-06</code> Grid</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts">MDN: Basic concepts of grid layout</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Grids">MDN: CSS grid layout</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-template-columns">MDN: grid-template-columns</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Common_grid_layouts">MDN: Common Grid layouts</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-04/index.html" title="Day 4 CSS Grid operations dashboard"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-03.html"><small>Previous lesson</small><strong>← Day 3</strong></a>
+                <a href="day-05.html"><small>Next lesson</small><strong>Day 5 →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-when-grid-is-the-right-tool">When Grid is the right tool</a></li><li><a href="#2-grid-container-and-grid-items">Grid container and grid items</a></li><li><a href="#3-tracks-lines-cells-and-areas">Tracks, lines, cells, and areas</a></li><li><a href="#4-defining-columns-and-rows">Defining columns and rows</a></li><li><a href="#5-understanding-the-fr-unit">Understanding the fr unit</a></li><li><a href="#6-repeat-minmax-auto-fit-and-auto-fill">repeat, minmax, auto-fit, and auto-fill</a></li><li><a href="#7-explicit-and-implicit-grids">Explicit and implicit grids</a></li><li><a href="#8-auto-placement">Auto-placement</a></li><li><a href="#9-placing-items-with-lines">Placing items with lines</a></li><li><a href="#10-named-lines-and-grid-areas">Named lines and grid areas</a></li><li><a href="#11-alignment-in-grid">Alignment in Grid</a></li><li><a href="#12-content-sizing-and-overflow">Content sizing and overflow</a></li><li><a href="#13-grid-areas-and-accessibility">Grid areas and accessibility</a></li><li><a href="#14-the-supplied-dashboard">The supplied dashboard</a></li><li><a href="#15-debugging-grid-in-devtools">Debugging Grid in DevTools</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#quick-recall-sheet">Quick recall sheet</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

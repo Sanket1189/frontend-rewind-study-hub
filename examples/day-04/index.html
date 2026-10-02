@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A finished CSS Grid operations dashboard." />
+    <title>CSS Grid Operations Console</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to dashboard</a>
+    <div class="dashboard-shell">
+      <aside class="rail" aria-label="Workspace navigation">
+        <a class="brand" href="#"><span aria-hidden="true">FO</span><strong>Frontend Ops</strong></a>
+        <nav aria-label="Primary"><a class="is-current" href="#main-content">Overview</a><a href="#activity">Activity</a><a href="#focus">Focus</a></nav>
+        <p>Day 04<br /><strong>CSS Grid</strong></p>
+      </aside>
+
+      <main id="main-content">
+        <header class="page-heading"><div><p class="eyebrow">Prepared dashboard</p><h1>Operations overview</h1><p>Grid controls shared rows and columns; Flexbox handles small action groups.</p></div><button type="button">Export report</button></header>
+
+        <section class="metric-grid" aria-label="Summary metrics">
+          <article><span>Applications</span><strong>18</strong><small>+4 this week</small></article>
+          <article><span>Responses</span><strong>7</strong><small>39% response rate</small></article>
+          <article><span>Interviews</span><strong>3</strong><small>2 scheduled</small></article>
+          <article><span>Study streak</span><strong>4d</strong><small>5 lessons ready</small></article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel activity-panel" id="activity" aria-labelledby="activity-title">
+            <div class="panel-heading"><div><p class="eyebrow">Auto placement</p><h2 id="activity-title">Recent activity</h2></div><a href="#activity">View all</a></div>
+            <div class="activity-grid">
+              <article><span class="status status--green">Interview</span><h3>Frontend Engineer</h3><p>Product Studio · Technical round scheduled</p></article>
+              <article><span class="status status--blue">Applied</span><h3>React Developer</h3><p>Fintech Labs · Applied two days ago</p></article>
+              <article><span class="status status--amber">Follow up</span><h3>UI Engineer</h3><p>Commerce Cloud · Follow up tomorrow</p></article>
+            </div>
+          </section>
+
+          <aside class="panel focus-panel" id="focus" aria-labelledby="focus-title"><p class="eyebrow">Narrow track</p><h2 id="focus-title">Today's focus</h2><ol><li><span>01</span>Review Grid tracks</li><li><span>02</span>Inspect auto-fit cards</li><li><span>03</span>Read interview answer</li></ol><button type="button">Open lesson</button></aside>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

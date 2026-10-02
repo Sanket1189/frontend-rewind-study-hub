@@ -20,6 +20,20 @@ const courseDays = [
     description: "Axes, alignment, sizing, and wrapping",
     href: "day-03.html",
   },
+  {
+    id: "day-04",
+    number: "04",
+    title: "CSS Grid",
+    description: "Tracks, placement, and dashboards",
+    href: "day-04.html",
+  },
+  {
+    id: "day-05",
+    number: "05",
+    title: "Responsive Design",
+    description: "Media and container queries",
+    href: "day-05.html",
+  },
 ];
 
 const storageKey = "frontend-study-progress-v1";

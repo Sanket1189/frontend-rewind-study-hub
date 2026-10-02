@@ -44,6 +44,32 @@ const lessons = [
     example: "examples/day-03/index.html",
     exampleTitle: "Day 3 Flexbox header and toolbar example",
     previous: { href: "day-02.html", label: "Day 2", eyebrow: "Previous lesson" },
+    next: { href: "day-04.html", label: "Day 4", eyebrow: "Next lesson" },
+  },
+  {
+    dayId: "day-04",
+    dayNumber: "04",
+    source: "Study Code/Lessons/Day 04 - CSS Grid Layout.md",
+    output: "day-04.html",
+    description:
+      "Learn Grid tracks, placement, auto-fit layouts, content sizing, accessibility, and dashboard patterns.",
+    topics: ["CSS-06"],
+    example: "examples/day-04/index.html",
+    exampleTitle: "Day 4 CSS Grid operations dashboard",
+    previous: { href: "day-03.html", label: "Day 3", eyebrow: "Previous lesson" },
+    next: { href: "day-05.html", label: "Day 5", eyebrow: "Next lesson" },
+  },
+  {
+    dayId: "day-05",
+    dayNumber: "05",
+    source: "Study Code/Lessons/Day 05 - Responsive Design.md",
+    output: "day-05.html",
+    description:
+      "Build responsive systems with fluid foundations, content breakpoints, media queries, and container queries.",
+    topics: ["CSS-08"],
+    example: "examples/day-05/index.html",
+    exampleTitle: "Day 5 responsive operations console",
+    previous: { href: "day-04.html", label: "Day 4", eyebrow: "Previous lesson" },
     next: { href: "index.html", label: "Dashboard", eyebrow: "Course" },
   },
 ];

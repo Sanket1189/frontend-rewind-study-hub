@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="An accessible job-interest form with clear errors and a native review dialog." />
+    <title>Accessible Job Interest Form</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to application form</a>
+    <header class="site-header">
+      <a class="brand" href="#main-content"><span aria-hidden="true">AC</span><strong>Apply Clear</strong></a>
+      <span>Day 06 · Accessibility</span>
+    </header>
+
+    <main id="main-content">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Keyboard-ready form flow</p>
+        <h1 id="page-title">Tell us which frontend role fits you.</h1>
+        <p>This finished example keeps labels visible, explains every requirement, reports errors in text, and reviews valid details in a native modal dialog.</p>
+      </section>
+
+      <div class="layout">
+        <form id="interest-form" class="form-card" novalidate>
+          <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden>
+            <h2>Please fix the following</h2>
+            <ul id="error-list"></ul>
+          </div>
+
+          <div class="form-heading">
+            <div><p class="eyebrow">Interest form</p><h2>Your details</h2></div>
+            <p id="required-note"><span aria-hidden="true">*</span> means required</p>
+          </div>
+
+          <div class="field" data-field="name">
+            <label for="name">Full name <span aria-hidden="true">*</span></label>
+            <input id="name" name="name" autocomplete="name" required aria-describedby="name-hint" />
+            <p class="hint" id="name-hint">Enter the name you use professionally.</p>
+            <p class="field-error" id="name-error" hidden></p>
+          </div>
+
+          <div class="field" data-field="email">
+            <label for="email">Email address <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-hint" />
+            <p class="hint" id="email-hint">Use an address where recruiters can reach you.</p>
+            <p class="field-error" id="email-error" hidden></p>
+          </div>
+
+          <div class="field" data-field="role">
+            <label for="role">Preferred role <span aria-hidden="true">*</span></label>
+            <select id="role" name="role" required aria-describedby="role-hint">
+              <option value="">Choose a role</option>
+              <option>Frontend Developer</option>
+              <option>React Developer</option>
+              <option>UI Developer</option>
+            </select>
+            <p class="hint" id="role-hint">Choose the role closest to your next goal.</p>
+            <p class="field-error" id="role-error" hidden></p>
+          </div>
+
+          <fieldset>
+            <legend>Work preference</legend>
+            <label class="choice"><input type="radio" name="work" value="Remote" checked /> Remote</label>
+            <label class="choice"><input type="radio" name="work" value="Hybrid" /> Hybrid</label>
+            <label class="choice"><input type="radio" name="work" value="On-site" /> On-site</label>
+          </fieldset>
+
+          <label class="consent"><input id="consent" name="consent" type="checkbox" /> Send occasional role updates</label>
+          <button class="primary-button" type="submit">Review details</button>
+        </form>
+
+        <aside class="check-card" aria-labelledby="checks-title">
+          <p class="eyebrow">What to inspect</p>
+          <h2 id="checks-title">Keyboard route</h2>
+          <ol>
+            <li>Press Tab and follow the visible amber focus ring.</li>
+            <li>Submit empty fields and read the linked summary.</li>
+            <li>Correct the fields without losing entered values.</li>
+            <li>Open the review dialog and press Escape.</li>
+            <li>Confirm that focus returns to Review details.</li>
+          </ol>
+          <p id="save-status" class="status-message" role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+    </main>
+
+    <dialog id="review-dialog" aria-labelledby="review-title" aria-describedby="review-copy">
+      <div class="dialog-content">
+        <p class="eyebrow">Final check</p>
+        <h2 id="review-title">Review your details</h2>
+        <p id="review-copy">Nothing is sent from this learning example.</p>
+        <dl id="review-details"></dl>
+        <div class="dialog-actions">
+          <button id="cancel-review" type="button">Go back</button>
+          <button id="confirm-review" class="primary-button" type="button" autofocus>Confirm details</button>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
+

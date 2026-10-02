@@ -70,6 +70,32 @@ const lessons = [
     example: "examples/day-05/index.html",
     exampleTitle: "Day 5 responsive operations console",
     previous: { href: "day-04.html", label: "Day 4", eyebrow: "Previous lesson" },
+    next: { href: "day-06.html", label: "Day 6", eyebrow: "Next lesson" },
+  },
+  {
+    dayId: "day-06",
+    dayNumber: "06",
+    source: "Study Code/Lessons/Day 06 - Practical Accessibility.md",
+    output: "day-06.html",
+    description:
+      "Practice keyboard navigation, visible focus, accessible form errors, modal focus management, and realistic testing.",
+    topics: ["A11Y-04", "A11Y-05"],
+    example: "examples/day-06/index.html",
+    exampleTitle: "Day 6 accessible form and dialog example",
+    previous: { href: "day-05.html", label: "Day 5", eyebrow: "Previous lesson" },
+    next: { href: "day-07.html", label: "Day 7", eyebrow: "Next lesson" },
+  },
+  {
+    dayId: "day-07",
+    dayNumber: "07",
+    source: "Study Code/Lessons/Day 07 - Positioning Stacking and Week One Review.md",
+    output: "day-07.html",
+    description:
+      "Understand positioning and stacking contexts, then review every Week 1 foundation inside one finished interface.",
+    topics: ["CSS-07"],
+    example: "examples/day-07/index.html",
+    exampleTitle: "Day 7 Week 1 operations board",
+    previous: { href: "day-06.html", label: "Day 6", eyebrow: "Previous lesson" },
     next: { href: "index.html", label: "Dashboard", eyebrow: "Course" },
   },
 ];

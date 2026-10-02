@@ -1,6 +1,6 @@
 # Frontend Rewind Study Hub
 
-A dependency-free study website for Sanket's eight-week frontend revision plan. It currently contains Day 1 through Day 5, finished examples, a reusable sidebar, mobile navigation, and browser-local completion tracking.
+A dependency-free study website for Sanket's eight-week frontend revision plan. It currently contains Day 1 through Day 7, finished examples, a reusable sidebar, mobile navigation, and browser-local completion tracking.
 
 The Markdown lesson files are the source of truth. The generated HTML pages include every lesson heading, paragraph, list, code block, table, interview answer, completion note, and source link.
 

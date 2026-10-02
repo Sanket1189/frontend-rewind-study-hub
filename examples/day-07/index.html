@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A finished Week 1 frontend operations board demonstrating layout, accessibility, positioning, and layers." />
+    <title>Week 1 Operations Board</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to dashboard</a>
+    <header class="topbar">
+      <a class="brand" href="#main-content"><span aria-hidden="true">W1</span><strong>Frontend Review</strong></a>
+      <nav aria-label="Primary"><a href="#overview">Overview</a><a href="#roles">Roles</a><a href="#review">Review</a></nav>
+      <button id="open-help" type="button">Layer guide</button>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="overview" aria-labelledby="page-title">
+        <div><p class="eyebrow">Week 1 complete reference</p><h1 id="page-title">One interface. Seven foundations.</h1><p>Inspect how semantic structure, CSS layout, responsive behavior, accessibility, positioning, and controlled layers work together.</p></div>
+        <a class="primary-action" href="#review">Open review map</a>
+      </section>
+
+      <section class="metric-grid" aria-label="Weekly topic summary">
+        <article><span>HTML</span><strong>Meaning first</strong><small>Landmarks and native controls</small></article>
+        <article><span>Layout</span><strong>Flow → Grid</strong><small>Choose the smallest useful tool</small></article>
+        <article><span>A11y</span><strong>Behavior too</strong><small>Keyboard, focus, names, errors</small></article>
+        <article><span>Layers</span><strong>Local contexts</strong><small>Small documented scale</small></article>
+      </section>
+
+      <div class="workspace">
+        <section class="panel role-panel" id="roles" aria-labelledby="roles-title">
+          <div class="panel-heading"><div><p class="eyebrow">Grid plus anchored details</p><h2 id="roles-title">Frontend opportunities</h2></div><span>3 prepared</span></div>
+          <div class="role-grid">
+            <article class="role-card"><span class="badge">Priority</span><h3>Frontend Developer</h3><p>Semantic UI · Modern CSS · JavaScript</p><div class="card-actions"><a href="#review">View skills</a><button type="button">Save role</button></div></article>
+            <article class="role-card"><span class="badge badge--blue">React</span><h3>UI Engineer</h3><p>Components · Accessibility · Testing</p><div class="card-actions"><a href="#review">View skills</a><button type="button">Save role</button></div></article>
+          </div>
+        </section>
+
+        <aside class="panel layer-map" aria-labelledby="layers-title">
+          <p class="eyebrow">Visible layer scale</p>
+          <h2 id="layers-title">Who owns each level?</h2>
+          <ol><li><b>0</b> normal content</li><li><b>10</b> raised cards</li><li><b>20</b> sticky header</li><li><b>Top</b> native dialog</li></ol>
+        </aside>
+      </div>
+
+      <section class="panel review-panel" id="review" aria-labelledby="review-title">
+        <div class="panel-heading"><div><p class="eyebrow">Read-only weekly recap</p><h2 id="review-title">Foundation map</h2></div><span>Day 01–07</span></div>
+        <div class="review-grid">
+          <article><span>01</span><h3>Semantic HTML</h3><p>Meaningful structure gives every later layer a dependable base.</p></article>
+          <article><span>02</span><h3>CSS foundations</h3><p>The cascade chooses values; flow and the box model place content.</p></article>
+          <article><span>03</span><h3>Flexbox</h3><p>One-dimensional alignment powers navigation and action groups.</p></article>
+          <article><span>04</span><h3>Grid</h3><p>Tracks create the page shell, metrics, and card composition.</p></article>
+          <article><span>05</span><h3>Responsive UI</h3><p>Fluid foundations adapt before content-driven queries are needed.</p></article>
+          <article><span>06</span><h3>Accessibility</h3><p>Focus, keyboard behavior, labels, errors, and state complete the UI.</p></article>
+          <article><span>07</span><h3>Position and layers</h3><p>Reference systems and stacking contexts control deliberate overlap.</p></article>
+        </div>
+      </section>
+      <p id="save-status" class="status" role="status" aria-live="polite"></p>
+    </main>
+
+    <dialog id="layer-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-content">
+        <p class="eyebrow">Browser top layer</p>
+        <h2 id="dialog-title">Why this dialog wins</h2>
+        <p>An element opened with <code>showModal()</code> enters the browser's top layer. It sits above ordinary document stacking contexts, while the browser also makes the background inert and contains focus.</p>
+        <button id="close-help" class="primary-action" type="button" autofocus>Got it</button>
+      </div>
+    </dialog>
+  </body>
+</html>
+

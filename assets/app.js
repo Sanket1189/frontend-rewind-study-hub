@@ -34,6 +34,20 @@ const courseDays = [
     description: "Media and container queries",
     href: "day-05.html",
   },
+  {
+    id: "day-06",
+    number: "06",
+    title: "Practical Accessibility",
+    description: "Keyboard, focus, errors, and testing",
+    href: "day-06.html",
+  },
+  {
+    id: "day-07",
+    number: "07",
+    title: "Positioning & Review",
+    description: "Layers, z-index, and Week 1 recap",
+    href: "day-07.html",
+  },
 ];
 
 const storageKey = "frontend-study-progress-v1";

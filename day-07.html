@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Understand positioning and stacking contexts, then review every Week 1 foundation inside one finished interface." />
+    <title>Day 7 · Positioning, Stacking Contexts, and Week One Review</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-07">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 07</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 07 · About 60 minutes</p>
+              <h1>Positioning, Stacking Contexts, and Week One Review</h1>
+              <p class="lesson-lead">Understand positioning and stacking contexts, then review every Week 1 foundation inside one finished interface.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-07/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">CSS-07</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Understand how positioned elements choose their containing block, how stacking contexts control overlap, and why an enormous <code>z-index</code> can still lose. Then inspect a finished Week 1 interface that combines semantic HTML, accessible controls, normal flow, Flexbox, Grid, responsive design, focus management, and deliberate layering.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-25 minutes: read positioning and stacking contexts.</li>
+<li>25-45 minutes: inspect the finished Week 1 Operations Board.</li>
+<li>45-55 minutes: use the debugging workflow and weekly connection map.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>CSS-07</code> plus any Week 1 topics you have actually reviewed.</li>
+</ul>
+</section>
+<section class="content-card" id="1-positioning-changes-an-element-s-reference-system"><h2>1. Positioning changes an element's reference system</h2>
+<p>Most interfaces should begin in normal flow. Positioning is useful when an element must be anchored, layered, or kept visible relative to a container or viewport. The <code>position</code> property changes how its offsets and stacking behavior are calculated.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Value</th>
+<th>In normal flow</th>
+<th>Typical reference</th>
+<th>Common use</th>
+</tr></thead><tbody>
+<tr>
+<td><code>static</code></td>
+<td>Yes</td>
+<td>Normal flow</td>
+<td>Default content</td>
+</tr>
+<tr>
+<td><code>relative</code></td>
+<td>Yes; original space remains</td>
+<td>Its own normal position</td>
+<td>Small offsets or containing block</td>
+</tr>
+<tr>
+<td><code>absolute</code></td>
+<td>No</td>
+<td>Nearest qualifying ancestor</td>
+<td>Badge or anchored decoration</td>
+</tr>
+<tr>
+<td><code>fixed</code></td>
+<td>No</td>
+<td>Usually the viewport</td>
+<td>Persistent utility control</td>
+</tr>
+<tr>
+<td><code>sticky</code></td>
+<td>Yes until threshold</td>
+<td>Nearest scrolling ancestor</td>
+<td>Section heading or app bar</td>
+</tr>
+</tbody></table></div>
+<p>Use the simplest value that expresses the relationship. Absolute positioning is not a general page-layout tool because removed elements no longer reserve space for one another.</p>
+</section>
+<section class="content-card" id="2-relative-positioning"><h2>2. Relative positioning</h2>
+<p><code>position: relative</code> keeps the element's original space in normal flow. Offsets move its painted box without causing surrounding content to reflow.</p>
+<p>Its most common use is not movement; it establishes a containing block for an absolutely positioned descendant.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="css">.card {
+  position: relative;
+}
+
+.card__badge {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-end: 0.75rem;
+}</code></div>
+<p>Now the badge is anchored to the card instead of an unrelated ancestor or the viewport.</p>
+</section>
+<section class="content-card" id="3-absolute-positioning"><h2>3. Absolute positioning</h2>
+<p>An absolutely positioned element is removed from normal flow. Other boxes behave as though it does not occupy layout space. Its inset properties such as <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>, or logical equivalents place it relative to its containing block.</p>
+<p>Use it for genuine overlays and anchored details, not for aligning whole pages. If content length changes, a page composed with absolute coordinates usually overlaps or leaves gaps.</p>
+</section>
+<section class="content-card" id="4-fixed-and-sticky-positioning"><h2>4. Fixed and sticky positioning</h2>
+<p>A fixed element is normally anchored to the viewport and remains in place while the document scrolls. Persistent help buttons and utility bars are examples. Reserve visual space where needed and ensure it does not cover content at zoom or on small screens.</p>
+<p>A sticky element participates in flow until its scroll container reaches a specified threshold:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="css">.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}</code></div>
+<p>Sticky positioning needs an inset such as <code>top: 0</code>. It can appear broken when an ancestor clips overflow, the scrolling ancestor is not the one expected, or the container has no scrolling distance.</p>
+</section>
+<section class="content-card" id="5-what-z-index-actually-controls"><h2>5. What z-index actually controls</h2>
+<p><code>z-index</code> controls the stack level of a box within its current stacking context. It is not a single global score for the entire document.</p>
+<p>Two children in different stacking contexts do not directly compare their own <code>z-index</code> values. Each child is first resolved inside its parent; then the parent stacking contexts compete as complete units.</p>
+<p>That is why <code>z-index: 999999</code> can remain underneath an element with <code>z-index: 2</code>: the large value may be trapped inside a parent whose whole stacking context sits lower.</p>
+</section>
+<section class="content-card" id="6-stacking-contexts-are-independent-layers"><h2>6. Stacking contexts are independent layers</h2>
+<p>A stacking context is a self-contained group along the z-axis. Common creators include:</p>
+<ul>
+<li>The root <code>&lt;html&gt;</code> element.</li>
+<li>Positioned elements with a non-<code>auto</code> <code>z-index</code>.</li>
+<li><code>position: fixed</code> or <code>position: sticky</code> elements.</li>
+<li>Flex or Grid items with a non-<code>auto</code> <code>z-index</code>.</li>
+<li><code>opacity</code> below <code>1</code>.</li>
+<li><code>transform</code>, <code>filter</code>, <code>perspective</code>, <code>clip-path</code>, or masking.</li>
+<li><code>isolation: isolate</code>.</li>
+<li>Certain containment and container-query properties.</li>
+<li>Elements placed in the browser's top layer, such as an open modal dialog.</li>
+</ul>
+<p>Do not memorize the list as trivia. Remember the debugging rule: inspect ancestors for properties that created an independent context.</p>
+</section>
+<section class="content-card" id="7-the-nested-context-trap"><h2>7. The nested-context trap</h2>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="css">.header {
+  position: relative;
+  z-index: 2;
+}
+
+.panel {
+  position: relative;
+  z-index: 1;
+  transform: translateZ(0);
+}
+
+.panel__menu {
+  position: absolute;
+  z-index: 9999;
+}</code></div>
+<p>The menu is high only inside <code>.panel</code>. The entire panel remains below <code>.header</code> because their parent-level values are <code>1</code> and <code>2</code>. Increase the correct ancestor's level, remove an accidental context, move the overlay to a suitable layer, or use a platform primitive such as <code>dialog</code> or popover when its behavior fits.</p>
+</section>
+<section class="content-card" id="8-use-a-small-layer-system"><h2>8. Use a small layer system</h2>
+<p>Random giant numbers make layering harder to reason about. Define a small scale around responsibilities:</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="css">:root {
+  --layer-base: 0;
+  --layer-raised: 10;
+  --layer-sticky: 20;
+  --layer-overlay: 30;
+}</code></div>
+<p>The numbers matter less than ownership. Keep each component internally isolated where helpful, document shared layers, and avoid letting ordinary cards compete with page-level navigation or overlays.</p>
+</section>
+<section class="content-card" id="9-isolation-can-make-components-safer"><h2>9. Isolation can make components safer</h2>
+<p><code>isolation: isolate</code> explicitly creates a stacking context. This can keep decorative negative layers or internal badges from escaping a component.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="css">.card {
+  position: relative;
+  isolation: isolate;
+}
+
+.card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: &quot;&quot;;
+}</code></div>
+<p>Use isolation intentionally. Like any stacking context, it can also contain an overlay that you expected to rise above neighboring components.</p>
+</section>
+<section class="content-card" id="10-the-browser-top-layer"><h2>10. The browser top layer</h2>
+<p>Some platform features render in a special top layer above ordinary document stacking contexts. A modal <code>&lt;dialog&gt;</code> opened with <code>showModal()</code> is one example. Its <code>::backdrop</code> also participates there.</p>
+<p>This avoids many arbitrary <code>z-index</code> battles, but top-layer placement does not replace accessibility requirements. The dialog still needs an accessible name, useful content, correct focus, and a visible way to close it.</p>
+</section>
+<section class="content-card" id="11-a-reliable-overlap-debugging-workflow"><h2>11. A reliable overlap debugging workflow</h2>
+<ol>
+<li>Identify the two elements that overlap incorrectly.</li>
+<li>Confirm whether they actually need to overlap.</li>
+<li>Inspect their <code>position</code> and computed <code>z-index</code>.</li>
+<li>Walk up both ancestor chains looking for stacking-context creators.</li>
+<li>Compare the nearest sibling stacking contexts, not only the deepest children.</li>
+<li>Remove accidental contexts such as unnecessary transforms or opacity.</li>
+<li>Change the smallest responsible layer instead of adding a giant number.</li>
+<li>Re-test keyboard focus, zoom, scrolling, and narrow layouts.</li>
+</ol>
+<p>Browser developer tools can show stacking contexts or layers. They are much faster than guessing successive <code>z-index</code> values.</p>
+</section>
+<section class="content-card" id="12-week-1-connection-map"><h2>12. Week 1 connection map</h2>
+<p>The finished example is one system, not seven unrelated demos:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Topic</th>
+<th>What it contributes</th>
+</tr></thead><tbody>
+<tr>
+<td>Semantic HTML</td>
+<td>Landmarks, headings, buttons, form controls, and meaningful order</td>
+</tr>
+<tr>
+<td>Cascade and box model</td>
+<td>Predictable sizing, spacing, inheritance, and maintainable styles</td>
+</tr>
+<tr>
+<td>Flexbox</td>
+<td>One-dimensional navigation and action alignment</td>
+</tr>
+<tr>
+<td>Grid</td>
+<td>Page shell, responsive summaries, and two-dimensional panels</td>
+</tr>
+<tr>
+<td>Responsive design</td>
+<td>Fluid sizing and content-driven layout changes</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>Labels, focus visibility, keyboard operation, errors, and modal focus</td>
+</tr>
+<tr>
+<td>Positioning and stacking</td>
+<td>Sticky navigation, anchored badges, controlled layers, and top-layer dialog</td>
+</tr>
+</tbody></table></div>
+<p>When these foundations are solid, React becomes a way to organize state and reusable UI rather than a workaround for weak HTML and CSS.</p>
+</section>
+<section class="content-card" id="13-inspect-the-week-1-operations-board"><h2>13. Inspect the Week 1 Operations Board</h2>
+<p>The example deliberately includes:</p>
+<ul>
+<li>A skip link and semantic page landmarks.</li>
+<li>A sticky header that remains in document flow.</li>
+<li>Flexbox for navigation and button groups.</li>
+<li>Grid for the responsive dashboard shell and metrics.</li>
+<li>An absolutely positioned status badge anchored to its card.</li>
+<li>A controlled layer scale instead of giant arbitrary numbers.</li>
+<li>An accessible form with persistent labels and clear instructions.</li>
+<li>A native modal dialog placed in the top layer.</li>
+<li>Strong <code>:focus-visible</code> treatment and reduced-motion support.</li>
+<li>A narrow-screen mode without horizontal page overflow.</li>
+</ul>
+<p>Inspect the page first as a user, then trace each behavior to its HTML and CSS. This is closer to real frontend work than studying isolated property definitions.</p>
+</section>
+<section class="content-card" id="14-weekly-review-without-extra-homework"><h2>14. Weekly review without extra homework</h2>
+<p>You do not need to rebuild this project. Use the hour to read and inspect. When a topic feels understandable, tick only that topic in the skill matrix. An unchecked box is useful information, not failure; it tells future lessons what needs another explanation.</p>
+<p>The minimum Week 1 recall is:</p>
+<ul>
+<li>HTML meaning comes before styling.</li>
+<li>Native controls are the default starting point.</li>
+<li>The cascade chooses values; the box model sizes boxes; normal flow places them.</li>
+<li>Flexbox solves one-dimensional distribution and alignment.</li>
+<li>Grid solves track-based, two-dimensional composition.</li>
+<li>Responsive design starts with resilient flow and adds queries at content failures.</li>
+<li>Accessibility includes keyboard behavior, focus, errors, names, and state changes.</li>
+<li>Positioning creates reference relationships; stacking contexts bound <code>z-index</code>.</li>
+</ul>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 07 Week One Review/index.html</code></li>
+<li><code>Study Code/Examples/Day 07 Week One Review/styles.css</code></li>
+<li><code>Study Code/Examples/Day 07 Week One Review/app.js</code></li>
+</ul>
+<p>The deployed version is included directly below the lesson page. No setup or coding is required.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>Result</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Absolute positioning used for page layout</td>
+<td>Content overlaps when it grows</td>
+<td>Use normal flow, Flexbox, or Grid</td>
+</tr>
+<tr>
+<td>Sticky element has no inset</td>
+<td>No sticky threshold exists</td>
+<td>Add <code>top</code>, <code>bottom</code>, or a logical inset</td>
+</tr>
+<tr>
+<td><code>z-index</code> increased repeatedly</td>
+<td>The real context boundary remains</td>
+<td>Inspect ancestor stacking contexts</td>
+</tr>
+<tr>
+<td>Transform added only for performance folklore</td>
+<td>An unexpected context is created</td>
+<td>Add properties only for measured reasons</td>
+</tr>
+<tr>
+<td>Fixed control covers content</td>
+<td>Actions become unreachable at zoom</td>
+<td>Reserve space and test small viewports</td>
+</tr>
+<tr>
+<td>Overlay rendered inside a clipped ancestor</td>
+<td>It is cut off despite high <code>z-index</code></td>
+<td>Reconsider ownership, overflow, or top-layer primitive</td>
+</tr>
+<tr>
+<td>Visual order differs from DOM order</td>
+<td>Reading and keyboard flow become confusing</td>
+<td>Keep semantic source order aligned with presentation</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> What creates a stacking context, and why might a very large z-index still appear underneath another element?</p>
+<p><strong>Model answer:</strong></p>
+<p>A stacking context is an independent z-axis group. The root creates one, and common triggers include positioned elements with a non-auto <code>z-index</code>, fixed or sticky positioning, opacity below one, transforms, filters, isolation, certain containment values, and top-layer elements. Descendants are stacked within their own context, and that completed context then competes as one unit in its parent's context. Therefore a child with <code>z-index: 9999</code> can remain below a sibling context with <code>z-index: 2</code> when the child's parent context itself is below that sibling. I debug this by comparing the nearest sibling contexts and walking their ancestors for context-creating properties instead of increasing the deepest child's number.</p>
+</section>
+<section class="content-card" id="quick-recall-sheet"><h2>Quick recall sheet</h2>
+<ul>
+<li>Prefer normal flow for ordinary layout.</li>
+<li>Relative positioning preserves space and can anchor descendants.</li>
+<li>Absolute and fixed positioning remove elements from normal flow.</li>
+<li>Sticky needs an inset and enough scroll distance.</li>
+<li><code>z-index</code> is local to a stacking context.</li>
+<li>Children cannot escape their parent's stacking context with a larger number.</li>
+<li>Transforms, opacity, isolation, containment, and several other features create contexts.</li>
+<li>Use a small documented layer scale.</li>
+<li>Native modal dialogs use the browser's top layer.</li>
+<li>Debug ancestors and context boundaries before changing numbers.</li>
+</ul>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and inspecting the finished board, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>CSS-07</code> Positioning, stacking contexts, and z-index</li>
+<li>Any earlier Week 1 topic only if you have actually reviewed its lesson</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Positioning">MDN: Positioning</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Positioned_layout/Stacking_context">MDN: Stacking context</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Positioned_layout/Understanding_z-index">MDN: Understanding z-index</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/z-index">MDN: z-index</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog">MDN: The dialog element</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-07/index.html" title="Day 7 Week 1 operations board"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-06.html"><small>Previous lesson</small><strong>← Day 6</strong></a>
+                <a href="index.html"><small>Course</small><strong>Dashboard →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-positioning-changes-an-element-s-reference-system">Positioning changes an element's reference system</a></li><li><a href="#2-relative-positioning">Relative positioning</a></li><li><a href="#3-absolute-positioning">Absolute positioning</a></li><li><a href="#4-fixed-and-sticky-positioning">Fixed and sticky positioning</a></li><li><a href="#5-what-z-index-actually-controls">What z-index actually controls</a></li><li><a href="#6-stacking-contexts-are-independent-layers">Stacking contexts are independent layers</a></li><li><a href="#7-the-nested-context-trap">The nested-context trap</a></li><li><a href="#8-use-a-small-layer-system">Use a small layer system</a></li><li><a href="#9-isolation-can-make-components-safer">Isolation can make components safer</a></li><li><a href="#10-the-browser-top-layer">The browser top layer</a></li><li><a href="#11-a-reliable-overlap-debugging-workflow">A reliable overlap debugging workflow</a></li><li><a href="#12-week-1-connection-map">Week 1 connection map</a></li><li><a href="#13-inspect-the-week-1-operations-board">Inspect the Week 1 Operations Board</a></li><li><a href="#14-weekly-review-without-extra-homework">Weekly review without extra homework</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#quick-recall-sheet">Quick recall sheet</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

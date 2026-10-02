@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Practice keyboard navigation, visible focus, accessible form errors, modal focus management, and realistic testing." />
+    <title>Day 6 · Practical Accessibility, Focus, and Form Errors</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body data-page="lesson" data-day="day-06">
+    <a class="skip-link" href="#main-content">Skip to lesson content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="study-sidebar" aria-label="Course navigation"></aside>
+      <button class="sidebar-backdrop" data-sidebar-close aria-label="Close navigation"></button>
+      <div class="content-shell">
+        <header class="mobile-header">
+          <button class="icon-button" type="button" data-sidebar-toggle aria-controls="study-sidebar" aria-expanded="false"><span aria-hidden="true">☰</span><span>Lessons</span></button>
+          <span class="mobile-brand">Day 06</span>
+        </header>
+        <main id="main-content" class="page-content lesson-page">
+          <header class="lesson-heading">
+            <div>
+              <p class="eyebrow">Day 06 · About 60 minutes</p>
+              <h1>Practical Accessibility, Focus, and Form Errors</h1>
+              <p class="lesson-lead">Practice keyboard navigation, visible focus, accessible form errors, modal focus management, and realistic testing.</p>
+            </div>
+            <div class="lesson-actions">
+              <a class="secondary-action" href="examples/day-06/index.html" target="_blank" rel="noreferrer">Open example</a>
+              <button class="complete-button" type="button" data-complete-day aria-pressed="false">Mark day complete</button>
+            </div>
+          </header>
+          <ul class="topic-list" aria-label="Topics covered"><li class="topic-chip">A11Y-04</li><li class="topic-chip">A11Y-05</li></ul>
+          <div class="lesson-layout">
+            <article class="lesson-article lesson-source">
+              <section class="content-card" id="today-s-outcome"><h2>Today's outcome</h2>
+<p>Understand the accessibility behavior a frontend developer must preserve when an interface becomes interactive. You will inspect a finished job-interest form, follow its keyboard and focus flow, see errors announced and connected to fields, and understand what automated tools can and cannot prove.</p>
+</section>
+<section class="content-card" id="suggested-timing"><h2>Suggested timing</h2>
+<ul>
+<li>0-25 minutes: read the keyboard, focus, and form guidance.</li>
+<li>25-45 minutes: open the finished example and inspect its behavior.</li>
+<li>45-55 minutes: follow the manual and automated testing checklist.</li>
+<li>55-60 minutes: read the model interview answer and tick <code>A11Y-04</code> and <code>A11Y-05</code>.</li>
+</ul>
+</section>
+<section class="content-card" id="1-accessibility-is-behavior-not-decoration"><h2>1. Accessibility is behavior, not decoration</h2>
+<p>Semantic HTML gives assistive technology meaning, but interactive accessibility also depends on behavior. A control must be reachable, understandable, operable, and predictable. Its state changes and errors must be perceivable without relying only on color, motion, sight, or a mouse.</p>
+<p>Use native elements first. A real <code>button</code>, <code>input</code>, <code>select</code>, and <code>dialog</code> include browser behavior that a styled <code>div</code> does not. ARIA can communicate semantics and state, but it does not add click handling, keyboard support, focus movement, or validation logic.</p>
+</section>
+<section class="content-card" id="2-think-like-a-keyboard-user"><h2>2. Think like a keyboard user</h2>
+<p>Test the page without touching the mouse:</p>
+<ul>
+<li><code>Tab</code> moves forward through interactive elements.</li>
+<li><code>Shift + Tab</code> moves backward.</li>
+<li><code>Enter</code> follows links and normally activates buttons.</li>
+<li><code>Space</code> activates buttons and toggles native checkboxes.</li>
+<li>Arrow keys operate many native grouped controls such as radio buttons and selects.</li>
+<li><code>Escape</code> commonly closes a modal dialog.</li>
+</ul>
+<p>The focus order should follow the DOM and the visual reading order. Avoid positive <code>tabindex</code> values because they create a second, fragile navigation order. Use <code>tabindex=&quot;-1&quot;</code> only when an otherwise non-focusable element must receive focus programmatically; it does not add the element to normal tab navigation.</p>
+</section>
+<section class="content-card" id="3-visible-focus-is-required-feedback"><h2>3. Visible focus is required feedback</h2>
+<p>Keyboard users need to know which control will receive the next action. Do not remove the browser outline unless you replace it with an equally visible indicator.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-1">Copy</button><code id="lesson-code-1" data-language="css">:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}</code></div>
+<p><code>:focus-visible</code> generally shows the strong indicator when the browser decides focus needs to be visible, especially during keyboard navigation. Test the indicator against every background and on every control state.</p>
+</section>
+<section class="content-card" id="4-labels-names-and-descriptions"><h2>4. Labels, names, and descriptions</h2>
+<p>Every form control needs an accessible name. A visible <code>&lt;label&gt;</code> explicitly connected with <code>for</code> and <code>id</code> is the most reliable choice.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-2">Copy</button><code id="lesson-code-2" data-language="html">&lt;label for=&quot;email&quot;&gt;Email address&lt;/label&gt;
+&lt;input id=&quot;email&quot; name=&quot;email&quot; type=&quot;email&quot; aria-describedby=&quot;email-hint&quot; /&gt;
+&lt;p id=&quot;email-hint&quot;&gt;Use the address where recruiters can reach you.&lt;/p&gt;</code></div>
+<p>The label tells the user what the field is. <code>aria-describedby</code> adds supporting information. A placeholder is neither: it disappears during typing, can have weak contrast, and is not a dependable replacement for a persistent label.</p>
+<p>Group related options with <code>fieldset</code> and <code>legend</code>. Give icon-only buttons an accessible name with visible text or <code>aria-label</code>. Prefer visible text when space permits because it helps everyone.</p>
+</section>
+<section class="content-card" id="5-required-fields-and-instructions"><h2>5. Required fields and instructions</h2>
+<p>Mark required fields in the HTML and explain the notation before the form. Do not rely on an asterisk alone.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-3">Copy</button><code id="lesson-code-3" data-language="html">&lt;p id=&quot;required-note&quot;&gt;Fields marked required must be completed.&lt;/p&gt;
+&lt;label for=&quot;role&quot;&gt;Preferred role &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;select id=&quot;role&quot; name=&quot;role&quot; required aria-describedby=&quot;required-note&quot;&gt;
+  &lt;option value=&quot;&quot;&gt;Choose a role&lt;/option&gt;
+  &lt;option&gt;Frontend developer&lt;/option&gt;
+&lt;/select&gt;</code></div>
+<p>Native constraints provide useful semantics and a fallback. Product validation may add clearer messages, but it should not erase native meaning.</p>
+</section>
+<section class="content-card" id="6-an-accessible-validation-sequence"><h2>6. An accessible validation sequence</h2>
+<p>When submission fails, the interface should do more than add a red border:</p>
+<ol>
+<li>Prevent submission.</li>
+<li>Show a concise error summary near the form heading.</li>
+<li>Provide links from the summary to invalid fields.</li>
+<li>Put a specific correction beside each invalid field.</li>
+<li>Connect the message using <code>aria-describedby</code>.</li>
+<li>Set <code>aria-invalid=&quot;true&quot;</code> while the value is invalid.</li>
+<li>Move focus to the summary or first invalid field.</li>
+<li>Preserve every value the user already entered.</li>
+</ol>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-4">Copy</button><code id="lesson-code-4" data-language="html">&lt;div id=&quot;error-summary&quot; role=&quot;alert&quot; tabindex=&quot;-1&quot; hidden&gt;
+  &lt;h2&gt;Please fix the following&lt;/h2&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;a href=&quot;#email&quot;&gt;Enter a valid email address.&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;input id=&quot;email&quot; aria-invalid=&quot;true&quot; aria-describedby=&quot;email-hint email-error&quot; /&gt;
+&lt;p id=&quot;email-error&quot;&gt;Enter an address such as name@example.com.&lt;/p&gt;</code></div>
+<p>Color may reinforce the error, but the text and programmatic connection carry the meaning.</p>
+</section>
+<section class="content-card" id="7-dynamic-announcements"><h2>7. Dynamic announcements</h2>
+<p>Content inserted after an action may need a live region so a screen reader announces it without moving focus.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-5">Copy</button><code id="lesson-code-5" data-language="html">&lt;p id=&quot;save-status&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/p&gt;</code></div>
+<p>Use <code>role=&quot;status&quot;</code> or a polite live region for non-urgent confirmation. Use <code>role=&quot;alert&quot;</code> sparingly for an important error that needs immediate attention. Do not announce every keystroke or duplicate information already conveyed by focus.</p>
+</section>
+<section class="content-card" id="8-focus-management-for-modal-dialogs"><h2>8. Focus management for modal dialogs</h2>
+<p>A modal temporarily makes the page behind it unavailable. Its focus lifecycle is part of the component:</p>
+<ol>
+<li>A real button opens the modal.</li>
+<li>Focus moves to a useful element inside it.</li>
+<li><code>Tab</code> and <code>Shift + Tab</code> remain inside while it is modal.</li>
+<li><code>Escape</code> and an explicit button can close it.</li>
+<li>Focus returns to the button that opened it.</li>
+</ol>
+<p>The native <code>&lt;dialog&gt;</code> element plus <code>showModal()</code> supplies modal semantics, background inertness, focus containment, and Escape behavior in modern browsers. It usually needs less custom code than rebuilding a modal with generic elements and ARIA.</p>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-6">Copy</button><code id="lesson-code-6" data-language="html">&lt;button type=&quot;button&quot; id=&quot;open-dialog&quot;&gt;Review submission&lt;/button&gt;
+
+&lt;dialog id=&quot;review-dialog&quot; aria-labelledby=&quot;review-title&quot;&gt;
+  &lt;h2 id=&quot;review-title&quot;&gt;Review submission&lt;/h2&gt;
+  &lt;p&gt;Confirm that the details are correct.&lt;/p&gt;
+  &lt;form method=&quot;dialog&quot;&gt;
+    &lt;button value=&quot;cancel&quot;&gt;Go back&lt;/button&gt;
+    &lt;button value=&quot;confirm&quot; autofocus&gt;Confirm&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;</code></div>
+<div class="code-block"><button class="copy-button" type="button" data-copy-target="lesson-code-7">Copy</button><code id="lesson-code-7" data-language="js">const opener = document.querySelector(&quot;#open-dialog&quot;);
+const dialog = document.querySelector(&quot;#review-dialog&quot;);
+
+opener.addEventListener(&quot;click&quot;, () =&gt; dialog.showModal());</code></div>
+<p><code>autofocus</code> declares the intended initial target. A button inside a <code>method=&quot;dialog&quot;</code> form closes the dialog. The browser returns focus to the invoking control when it is still available.</p>
+</section>
+<section class="content-card" id="9-choose-initial-focus-deliberately"><h2>9. Choose initial focus deliberately</h2>
+<p>For a short confirmation, focus the safest or most common action. For long or destructive content, focusing the heading or a neutral action may be better so the user can understand the message before acting. The exact target is a product decision, but it must be predictable and inside the dialog.</p>
+<p>Always provide a visible close or cancel control. Escape support alone is not discoverable enough.</p>
+</section>
+<section class="content-card" id="10-hiding-content-correctly"><h2>10. Hiding content correctly</h2>
+<p>Different techniques have different meanings:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Technique</th>
+<th>Visible</th>
+<th>In accessibility tree</th>
+<th>Takes layout space</th>
+</tr></thead><tbody>
+<tr>
+<td><code>hidden</code> or <code>display: none</code></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>visibility: hidden</code></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Visually-hidden CSS</td>
+<td>No</td>
+<td>Yes</td>
+<td>Effectively no</td>
+</tr>
+<tr>
+<td><code>aria-hidden=&quot;true&quot;</code></td>
+<td>Usually yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<p>Never put <code>aria-hidden=&quot;true&quot;</code> on a focusable element or an ancestor of one. It can leave something reachable by keyboard but absent from the accessibility tree.</p>
+</section>
+<section class="content-card" id="11-manual-accessibility-review"><h2>11. Manual accessibility review</h2>
+<p>Manual checks find behavior and comprehension problems that a scanner cannot:</p>
+<ol>
+<li>Zoom to 200% and confirm content reflows without loss.</li>
+<li>Navigate the whole page with keyboard only.</li>
+<li>Confirm focus is always visible and follows a logical order.</li>
+<li>Operate every control without hover or precise pointer movement.</li>
+<li>Submit the form empty and follow the error-recovery path.</li>
+<li>Open the dialog, cycle focus, close with Escape, and check focus return.</li>
+<li>Inspect headings, landmarks, labels, names, roles, and states in browser tools.</li>
+<li>Use a screen reader for the critical flow and listen for labels, errors, and status updates.</li>
+<li>Check that meaning does not depend only on color, position, shape, or sound.</li>
+</ol>
+</section>
+<section class="content-card" id="12-automated-checks-are-a-safety-net"><h2>12. Automated checks are a safety net</h2>
+<p>Run browser accessibility inspection, axe, Lighthouse, or an equivalent rule engine early and in continuous integration when practical. These tools are excellent at detecting certain missing names, invalid ARIA, contrast failures, and structural errors.</p>
+<p>Passing an automated scan does not prove the experience is accessible. A tool cannot reliably decide whether the heading describes the page, the focus order matches the task, the error is understandable, or a modal opens at the right moment. Combine automation with keyboard testing, zoom, screen-reader review, and human judgment.</p>
+</section>
+<section class="example-panel" id="13-inspect-the-finished-example"><h2>13. Inspect the finished example</h2>
+<p>The prepared form demonstrates the full sequence:</p>
+<ul>
+<li>Empty submission reveals a linked error summary.</li>
+<li>Invalid fields receive <code>aria-invalid</code> and connected messages.</li>
+<li>Focus moves to the summary so the failure is not silent.</li>
+<li>Valid input opens a native review dialog.</li>
+<li>The dialog has a visible title, cancel and confirm actions, Escape behavior, and focus return.</li>
+<li>Confirmation is reported through a polite status region.</li>
+<li>The interface remains operable at narrow widths and enlarged text.</li>
+</ul>
+<p>No data is sent anywhere. The example exists only to expose the frontend behavior for inspection.</p>
+</section>
+<section class="example-panel" id="finished-example"><h2>Finished example</h2>
+<p>Codex built the example here:</p>
+<ul>
+<li><a href="#live-example">Example walkthrough</a></li>
+<li><code>Study Code/Examples/Day 06 Accessibility/index.html</code></li>
+<li><code>Study Code/Examples/Day 06 Accessibility/styles.css</code></li>
+<li><code>Study Code/Examples/Day 06 Accessibility/app.js</code></li>
+</ul>
+<p>Open the example, submit it empty, correct one field at a time, submit valid values, then open and close the review dialog using only the keyboard.</p>
+</section>
+<section class="content-card" id="common-mistakes-and-fixes"><h2>Common mistakes and fixes</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Mistake</th>
+<th>Result</th>
+<th>Better approach</th>
+</tr></thead><tbody>
+<tr>
+<td>Clickable <code>div</code> used as a button</td>
+<td>Missing native keyboard and semantics</td>
+<td>Use <code>&lt;button&gt;</code></td>
+</tr>
+<tr>
+<td>Outline removed globally</td>
+<td>Keyboard location becomes invisible</td>
+<td>Style <code>:focus-visible</code> clearly</td>
+</tr>
+<tr>
+<td>Placeholder used as label</td>
+<td>Context disappears during typing</td>
+<td>Keep a connected visible label</td>
+</tr>
+<tr>
+<td>Error shown only in red</td>
+<td>Meaning depends on color</td>
+<td>Add specific text and programmatic association</td>
+</tr>
+<tr>
+<td>Focus stays on submit after errors appear</td>
+<td>New information can be missed</td>
+<td>Focus the error summary or first invalid field</td>
+</tr>
+<tr>
+<td><code>aria-live</code> added everywhere</td>
+<td>Repetitive, disruptive announcements</td>
+<td>Announce only meaningful dynamic changes</td>
+</tr>
+<tr>
+<td>Custom modal without complete behavior</td>
+<td>Focus escapes or cannot return</td>
+<td>Prefer native <code>&lt;dialog&gt;</code> or implement the full pattern</td>
+</tr>
+<tr>
+<td>Automated score treated as proof</td>
+<td>Usability failures remain</td>
+<td>Combine tools with manual assistive-technology testing</td>
+</tr>
+</tbody></table></div>
+</section>
+<section class="interview-card" id="interview-question-and-model-answer"><h2>Interview question and model answer</h2>
+<p><strong>Question:</strong> How should focus behave when a modal opens and closes?</p>
+<p><strong>Model answer:</strong></p>
+<p>The modal is opened by a real interactive control. When it opens, focus moves to an appropriate element inside it, chosen according to the task and risk. While the modal is active, keyboard focus must remain inside the dialog and the background must be inert. The user can close it through a visible control and normally with Escape. After it closes, focus returns to the element that opened it unless that element no longer exists, in which case it moves to a logical nearby target. I prefer the native <code>dialog</code> element with <code>showModal()</code> because the browser supplies much of this behavior, but I still test initial focus, tab containment, Escape, accessible naming, and focus return with a keyboard and screen reader.</p>
+</section>
+<section class="content-card" id="quick-recall-sheet"><h2>Quick recall sheet</h2>
+<ul>
+<li>Native controls provide semantics and keyboard behavior.</li>
+<li>DOM order should match reading and focus order.</li>
+<li>Never remove focus visibility without a strong replacement.</li>
+<li>Labels name fields; descriptions provide extra guidance.</li>
+<li>Errors need specific text, association, and a discoverable focus strategy.</li>
+<li>Live regions announce meaningful dynamic changes without moving focus.</li>
+<li>A modal moves focus inside, contains it, offers a close action, and returns focus.</li>
+<li>Prefer native <code>&lt;dialog&gt;</code> for ordinary modal behavior.</li>
+<li>Automated checks catch rules, not the entire user experience.</li>
+<li>Test keyboard, zoom, errors, focus, and a critical screen-reader flow.</li>
+</ul>
+</section>
+<section class="content-card" id="mark-complete"><h2>Mark complete</h2>
+<p>After reading the lesson and inspecting the finished form, open <a href="#live-example">../02 Skill Matrix</a> and tick:</p>
+<ul>
+<li><code>A11Y-04</code> Focus management for dialogs and dynamic UI</li>
+<li><code>A11Y-05</code> Screen-reader and automated accessibility checks</li>
+</ul>
+</section>
+<section class="content-card" id="sources"><h2>Sources</h2>
+<ul>
+<li><a href="https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/">W3C WAI: Developing a Keyboard Interface</a></li>
+<li><a href="https://www.w3.org/WAI/tutorials/forms/notifications/">W3C WAI: User Notifications in Forms</a></li>
+<li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/">W3C WAI: Modal Dialog Pattern</a></li>
+<li><a href="https://www.w3.org/WAI/WCAG22/Techniques/html/H102">W3C WCAG Technique H102: Native modal dialogs</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog">MDN: The dialog element</a></li>
+</ul>
+</section>
+              <section class="example-panel" id="live-example">
+                <h2>Live example preview</h2>
+                <p>This is the finished example referenced by the lesson file.</p>
+                <iframe class="preview-frame" src="examples/day-06/index.html" title="Day 6 accessible form and dialog example"></iframe>
+              </section>
+              <nav class="pagination" aria-label="Lesson pagination">
+                <a href="day-05.html"><small>Previous lesson</small><strong>← Day 5</strong></a>
+                <a href="day-07.html"><small>Next lesson</small><strong>Day 7 →</strong></a>
+              </nav>
+            </article>
+            <nav class="lesson-toc" aria-label="On this page">
+              <strong>Every lesson section</strong>
+              <ol><li><a href="#today-s-outcome">Today's outcome</a></li><li><a href="#suggested-timing">Suggested timing</a></li><li><a href="#1-accessibility-is-behavior-not-decoration">Accessibility is behavior, not decoration</a></li><li><a href="#2-think-like-a-keyboard-user">Think like a keyboard user</a></li><li><a href="#3-visible-focus-is-required-feedback">Visible focus is required feedback</a></li><li><a href="#4-labels-names-and-descriptions">Labels, names, and descriptions</a></li><li><a href="#5-required-fields-and-instructions">Required fields and instructions</a></li><li><a href="#6-an-accessible-validation-sequence">An accessible validation sequence</a></li><li><a href="#7-dynamic-announcements">Dynamic announcements</a></li><li><a href="#8-focus-management-for-modal-dialogs">Focus management for modal dialogs</a></li><li><a href="#9-choose-initial-focus-deliberately">Choose initial focus deliberately</a></li><li><a href="#10-hiding-content-correctly">Hiding content correctly</a></li><li><a href="#11-manual-accessibility-review">Manual accessibility review</a></li><li><a href="#12-automated-checks-are-a-safety-net">Automated checks are a safety net</a></li><li><a href="#13-inspect-the-finished-example">Inspect the finished example</a></li><li><a href="#finished-example">Finished example</a></li><li><a href="#common-mistakes-and-fixes">Common mistakes and fixes</a></li><li><a href="#interview-question-and-model-answer">Interview question and model answer</a></li><li><a href="#quick-recall-sheet">Quick recall sheet</a></li><li><a href="#mark-complete">Mark complete</a></li><li><a href="#sources">Sources</a></li><li><a href="#live-example">Live example preview</a></li></ol>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

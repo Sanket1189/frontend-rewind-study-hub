@@ -1,0 +1,50 @@
+*, *::before, *::after { box-sizing: border-box; }
+:root { color: #182033; background: #eef2f7; font: 1rem/1.55 Inter, ui-sans-serif, system-ui, sans-serif; }
+body { margin: 0; min-width: 20rem; }
+button, input, select { font: inherit; }
+.skip-link { position: fixed; z-index: 50; inset: .75rem auto auto .75rem; padding: .7rem 1rem; color: white; background: #111827; border-radius: .5rem; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem max(1rem, calc((100% - 70rem) / 2)); color: #fff; background: #172033; }
+.site-header > span { color: #cbd5e1; font-size: .8rem; }
+.brand { display: flex; align-items: center; gap: .65rem; color: inherit; text-decoration: none; }
+.brand span { display: grid; width: 2.3rem; aspect-ratio: 1; place-items: center; border-radius: .65rem; background: #7757f8; font-size: .75rem; font-weight: 900; }
+main { width: min(70rem, 100% - 2rem); margin-inline: auto; padding-block: clamp(2rem, 5vw, 4rem); }
+.intro { max-width: 48rem; margin-bottom: 1.5rem; }
+.eyebrow { margin: 0 0 .35rem; color: #6545d6; font-size: .74rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+h1, h2, p { margin-top: 0; }
+h1 { margin-bottom: .8rem; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: 1.02; letter-spacing: -.05em; }
+.intro > p:last-child, .hint, .form-heading p, .check-card { color: #5d6679; }
+.layout { display: grid; gap: 1rem; align-items: start; }
+.form-card, .check-card { padding: clamp(1rem, 3vw, 1.6rem); border: 1px solid #d8deea; border-radius: 1rem; background: #fff; box-shadow: 0 1rem 2.5rem rgb(34 46 74 / 8%); }
+.form-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: start; }
+.form-heading h2, .check-card h2 { margin-bottom: .4rem; color: #182033; }
+.field { margin-top: 1.15rem; }
+label, legend { color: #202a40; font-weight: 800; }
+input:not([type="radio"]):not([type="checkbox"]), select { width: 100%; min-height: 3rem; margin-top: .4rem; padding: .65rem .75rem; border: 1px solid #aeb8ca; border-radius: .6rem; color: inherit; background: #fff; }
+.hint, .field-error { margin: .35rem 0 0; font-size: .88rem; }
+.field-error { color: #a61b29; font-weight: 700; }
+[aria-invalid="true"] { border: 2px solid #b42332 !important; }
+fieldset { display: flex; flex-wrap: wrap; gap: .65rem 1rem; margin: 1.2rem 0; padding: .85rem; border: 1px solid #d8deea; border-radius: .7rem; }
+legend { padding-inline: .3rem; }
+.choice, .consent { display: flex; gap: .5rem; align-items: center; font-weight: 650; }
+.consent { margin-bottom: 1.2rem; }
+.primary-button, #cancel-review { min-height: 2.85rem; padding-inline: 1rem; border: 1px solid #6d4bea; border-radius: .65rem; font-weight: 850; cursor: pointer; }
+.primary-button { color: #fff; background: #6545d6; }
+#cancel-review { color: #4933a5; background: #fff; }
+.error-summary { margin-bottom: 1.2rem; padding: 1rem; border: 2px solid #b42332; border-radius: .75rem; color: #7f1721; background: #fff4f5; }
+.error-summary h2 { margin-bottom: .4rem; font-size: 1.05rem; }
+.error-summary ul { margin-block: .25rem 0; padding-left: 1.4rem; }
+.error-summary a { color: inherit; font-weight: 750; }
+.check-card ol { padding-left: 1.3rem; }
+.check-card li + li { margin-top: .55rem; }
+.status-message:not(:empty) { margin-top: 1.2rem; padding: .8rem; border-radius: .65rem; color: #166534; background: #dcfce7; font-weight: 750; }
+dialog { width: min(32rem, calc(100% - 2rem)); padding: 0; border: 0; border-radius: 1rem; color: inherit; box-shadow: 0 2rem 5rem rgb(15 23 42 / 35%); }
+dialog::backdrop { background: rgb(15 23 42 / 68%); backdrop-filter: blur(3px); }
+.dialog-content { padding: clamp(1.2rem, 5vw, 2rem); }
+dl { display: grid; grid-template-columns: auto 1fr; gap: .4rem 1rem; padding: 1rem; border-radius: .7rem; background: #f4f2ff; }
+dt { font-weight: 850; } dd { margin: 0; overflow-wrap: anywhere; }
+.dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .7rem; margin-top: 1.2rem; }
+:where(a, button, input, select):focus-visible, .error-summary:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+@media (width >= 50rem) { .layout { grid-template-columns: minmax(0, 1.55fr) minmax(16rem, .8fr); gap: 1.25rem; } .check-card { position: sticky; top: 1rem; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
